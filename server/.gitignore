@@ -1,5 +1,6 @@
 # config file
 config.yml
+.prometheus-yml.data
 
 # bin files
 server

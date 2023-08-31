@@ -24,13 +24,8 @@ func main() {
 		os.Exit(-1)
 	}
 
-	if err := service.CheckPrometheus(); err != nil {
-		logger.Error("Please confirm if prometheus is installed first: %s", err)
-		os.Exit(-1)
-	}
-
-	if err := service.InitPrometheusYML(config.Config().Http.Addr); err != nil {
-		logger.Error("init prometheus yaml failed: %s", err)
+	if err := service.InitPrometheus(config.Config().Http.Addr); err != nil {
+		logger.Error("check prometheus error: %s", err)
 		os.Exit(-1)
 	}
 
