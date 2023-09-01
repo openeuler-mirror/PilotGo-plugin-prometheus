@@ -5,7 +5,7 @@ module.exports = {
     },
     proxy: {
       '/': {
-        target: 'http://localhost:8082',
+        target: 'http://localhost:8090',
         ws: false,
         changeOrigin: true,
       }
@@ -15,8 +15,8 @@ module.exports = {
   },
 
   // 静态资源
-  publicPath: "./",
-  outputDir: "dist",//"../server/resource/dist",
+  publicPath: "./prometheus",
+  outputDir: "dist",
   assetsDir: "static",
   indexPath: "index.html",
   filenameHashing: true,

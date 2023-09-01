@@ -1,5 +1,5 @@
 prometheus:
-  url: "http://localhost:8090/plugin/Prometheus"
+  url: "http://localhost:8090/plugin/prometheus"
   plugin_type: "micro-app"
   reverseDest: "http://localhost:9090"
 http:
