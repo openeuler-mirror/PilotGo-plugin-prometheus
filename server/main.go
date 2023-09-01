@@ -38,6 +38,7 @@ func main() {
 
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Prometheus))
 	router.RegisterAPIs(server)
+	router.StaticRouter(server)
 	global.GlobalClient.Server = config.Config().Http.Addr
 
 	if err := server.Run(config.Config().Http.Addr); err != nil {

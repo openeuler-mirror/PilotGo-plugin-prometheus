@@ -1,6 +1,9 @@
 package router
 
 import (
+	"net/http"
+	"strings"
+
 	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/prometheus-plugin/global"
@@ -54,4 +57,19 @@ func RegisterAPIs(router *gin.Engine) {
 		targetManager.POST("addTarget", httphandler.AddPrometheusTarget)
 		targetManager.DELETE("delTarget", httphandler.DeletePrometheusTarget)
 	}
+}
+
+func StaticRouter(router *gin.Engine) {
+	router.Static("/static", "../web/dist/static")
+	router.StaticFile("/", "../web/dist/index.html")
+
+	// 解决页面刷新404的问题
+	router.NoRoute(func(c *gin.Context) {
+		logger.Info("process noroute: %s", c.Request.URL.RawPath)
+		if !strings.HasPrefix(c.Request.RequestURI, "/api/") && !strings.HasPrefix(c.Request.RequestURI, "/plugin/Prometheus") {
+			c.File("./web/dist/index.html")
+			return
+		}
+		c.AbortWithStatus(http.StatusNotFound)
+	})
 }
