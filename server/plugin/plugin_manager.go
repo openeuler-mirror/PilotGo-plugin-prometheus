@@ -7,7 +7,7 @@ import (
 
 func Init(conf *config.Prometheus) *client.PluginInfo {
 	PluginInfo := client.PluginInfo{
-		Name:        "Prometheus",
+		Name:        "prometheus",
 		Version:     "0.0.1",
 		Description: "Prometheus开源系统监视和警报工具包",
 		Author:      "zhanghan",
