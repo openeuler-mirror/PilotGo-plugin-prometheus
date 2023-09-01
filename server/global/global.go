@@ -6,11 +6,11 @@ import (
 )
 
 var (
-	GlobalClient        *client.Client
-	GlobalDB            *gorm.DB
-	GlobalPrometheusYml string
+	GlobalClient *client.Client
+	GlobalDB     *gorm.DB
 )
 
 const (
-	GlobalPrometheusYmlInit = "../scripts/init_prometheus_yml.sh"
+	GlobalPrometheusYmlInit = "./scripts/init_prometheus_yml.sh"
+	GlobalPrometheusYml     = "/etc/prometheus/prometheus.yml"
 )
