@@ -5,16 +5,16 @@ import (
 	"openeuler.org/PilotGo/prometheus-plugin/config"
 )
 
-func Init(conf *config.Prometheus) *client.PluginInfo {
+func Init(plugin *config.PluginPrometheus, prometheus *config.PrometheusServer) *client.PluginInfo {
 	PluginInfo := client.PluginInfo{
 		Name:        "prometheus",
 		Version:     "0.0.1",
 		Description: "Prometheus开源系统监视和警报工具包",
 		Author:      "zhanghan",
 		Email:       "zhanghan@kylinos.cn",
-		Url:         conf.URL,
-		PluginType:  conf.PluginType,
-		ReverseDest: conf.ReverseDest,
+		Url:         plugin.URL,
+		PluginType:  plugin.PluginType,
+		ReverseDest: "http://" + prometheus.Addr,
 	}
 
 	return &PluginInfo

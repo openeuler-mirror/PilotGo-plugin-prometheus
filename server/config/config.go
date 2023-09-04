@@ -9,12 +9,17 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type Prometheus struct {
-	URL         string `yaml:"url"`
-	PluginType  string `yaml:"plugin_type"`
-	ReverseDest string `yaml:"reverseDest"`
+type PluginPrometheus struct {
+	URL        string `yaml:"url"`
+	PluginType string `yaml:"plugin_type"`
 }
-type HttpConf struct {
+type PrometheusServer struct {
+	Addr string `yaml:"addr"`
+}
+type HttpServer struct {
+	Addr string `yaml:"addr"`
+}
+type PilotGoServer struct {
 	Addr string `yaml:"addr"`
 }
 
@@ -27,10 +32,12 @@ type MysqlDBInfo struct {
 }
 
 type ServerConfig struct {
-	Prometheus *Prometheus     `yaml:"prometheus"`
-	Http       *HttpConf       `yaml:"http"`
-	Logopts    *logger.LogOpts `yaml:"log"`
-	Mysql      *MysqlDBInfo    `yaml:"mysql"`
+	PluginPrometheus *PluginPrometheus `yaml:"plugin_prometheus"`
+	PrometheusServer *PrometheusServer `yaml:"prometheus_server"`
+	HttpServer       *HttpServer       `yaml:"http_server"`
+	PilotGoServer    *PilotGoServer    `yaml:"pilotgo_server"`
+	Logopts          *logger.LogOpts   `yaml:"log"`
+	Mysql            *MysqlDBInfo      `yaml:"mysql"`
 }
 
 const config_file = "./config.yml"

@@ -24,7 +24,7 @@ func main() {
 		os.Exit(-1)
 	}
 
-	if err := service.InitPrometheus(config.Config().Http.Addr); err != nil {
+	if err := service.InitPrometheus(config.Config().HttpServer.Addr); err != nil {
 		logger.Error("check prometheus error: %s", err)
 		os.Exit(-1)
 	}
@@ -36,12 +36,12 @@ func main() {
 
 	server := router.InitRouter()
 
-	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Prometheus))
+	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
 	router.RegisterAPIs(server)
 	router.StaticRouter(server)
-	global.GlobalClient.Server = config.Config().Http.Addr
+	global.GlobalClient.Server = config.Config().HttpServer.Addr
 
-	if err := server.Run(config.Config().Http.Addr); err != nil {
+	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
 		logger.Fatal("failed to run server")
 	}
 }
