@@ -23,12 +23,6 @@ func RegisterAPIs(router *gin.Engine) {
 	logger.Debug("router register")
 	global.GlobalClient.RegisterHandlers(router)
 
-	// prometheus配置文件http方式获取监控target
-	DBTarget := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
-	{
-		DBTarget.GET("target", httphandler.DBTargets)
-	}
-
 	// prometheus api代理
 	prometheus := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name + "/api/v1")
 	{
@@ -51,6 +45,12 @@ func RegisterAPIs(router *gin.Engine) {
 
 	}
 
+	// prometheus配置文件http方式获取监控target
+	DBTarget := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
+	{
+		DBTarget.GET("target", httphandler.DBTargets)
+	}
+
 	//prometheus target crud
 	targetManager := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
 	{
@@ -65,8 +65,8 @@ func StaticRouter(router *gin.Engine) {
 
 	// 解决页面刷新404的问题
 	router.NoRoute(func(c *gin.Context) {
-		logger.Info("process noroute: %s", c.Request.URL.RawPath)
-		if !strings.HasPrefix(c.Request.RequestURI, "/api/") && !strings.HasPrefix(c.Request.RequestURI, "/plugin/prometheus") {
+		logger.Error("process noroute: %s", c.Request.URL.RawPath)
+		if !strings.HasPrefix(c.Request.RequestURI, "/plugin/prometheus") {
 			c.File("./web/dist/index.html")
 			return
 		}
