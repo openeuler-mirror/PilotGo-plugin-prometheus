@@ -21,6 +21,7 @@ func Query(c *gin.Context) {
 
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
+	c.Request.Host = url.Host
 	c.Request.URL.Path = "api/v1/query" //请求API
 	proxy.ServeHTTP(c.Writer, c.Request)
 }
@@ -38,6 +39,7 @@ func QueryRange(c *gin.Context) {
 
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
+	c.Request.Host = url.Host
 	c.Request.URL.Path = "api/v1/query_range" //请求API
 	proxy.ServeHTTP(c.Writer, c.Request)
 }
@@ -55,6 +57,7 @@ func Targets(c *gin.Context) {
 
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
+	c.Request.Host = url.Host
 	c.Request.URL.Path = "api/v1/targets" //请求API
 	proxy.ServeHTTP(c.Writer, c.Request)
 }
@@ -72,6 +75,7 @@ func Alerts(c *gin.Context) {
 
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
+	c.Request.Host = url.Host
 	c.Request.URL.Path = "api/v1/alerts" //请求API
 	proxy.ServeHTTP(c.Writer, c.Request)
 }
