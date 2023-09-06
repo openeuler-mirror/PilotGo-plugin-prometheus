@@ -24,7 +24,11 @@ type MysqlManager struct {
 }
 
 func MysqldbInit(conf *config.MysqlDBInfo) error {
-	_, err := mysqlInit(
+	err := ensureDatabase(conf)
+	if err != nil {
+		return err
+	}
+	_, err = mysqlInit(
 		conf.HostName,
 		conf.UserName,
 		conf.Password,
@@ -74,4 +78,27 @@ func mysqlInit(ip, username, password, dbname string, port int) (*MysqlManager, 
 	db.SetMaxOpenConns(100)
 
 	return m, nil
+}
+func ensureDatabase(conf *config.MysqlDBInfo) error {
+	Url := fmt.Sprintf("%s:%s@(%s:%d)/?charset=utf8mb4&parseTime=true",
+		conf.UserName,
+		conf.Password,
+		conf.HostName,
+		conf.Port)
+	db, err := gorm.Open(mysql.Open(Url))
+	if err != nil {
+		return err
+	}
+
+	creatDataBase := "CREATE DATABASE IF NOT EXISTS " + conf.DataBase + " DEFAULT CHARSET utf8 COLLATE utf8_general_ci"
+	db.Exec(creatDataBase)
+
+	d, err := db.DB()
+	if err != nil {
+		return err
+	}
+	if err = d.Close(); err != nil {
+		return err
+	}
+	return nil
 }
