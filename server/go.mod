@@ -1,6 +1,6 @@
 module openeuler.org/PilotGo/prometheus-plugin
 
-go 1.18
+go 1.17
 
 require (
 	gitee.com/openeuler/PilotGo-plugins/sdk v0.0.0-20230712081817-a4a01392a632
