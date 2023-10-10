@@ -3,7 +3,7 @@ package httphandler
 import (
 	"net/http"
 
-	"gitee.com/openeuler/PilotGo-plugins/sdk/response"
+	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/prometheus-plugin/httphandler/service"
 )

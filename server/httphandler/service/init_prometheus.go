@@ -5,20 +5,20 @@ import (
 	"strconv"
 	"strings"
 
-	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
-	"gitee.com/openeuler/PilotGo-plugins/sdk/utils/command"
+	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"openeuler.org/PilotGo/prometheus-plugin/global"
+	"openeuler.org/PilotGo/prometheus-plugin/utils"
 )
 
 func InitPrometheus(httpaddr string) error {
 	checkNodeExporter := "rpm -qa |grep  golang-github-prometheus-node_exporter"
-	_, stdout1, _, _ := command.RunCommand(checkNodeExporter)
+	_, stdout1, _, _ := utils.RunCommand(checkNodeExporter)
 	if len(strings.Trim(stdout1, "\n")) == 0 {
 		return errors.New(`please use "yum install -y golang-github-prometheus-node_exporter" to install it`)
 	}
 
 	checkPrometheus := `/usr/bin/prometheus --version | grep -oP '(2+\.\d+)\.\d+' | awk -F '.' '{print $2}'`
-	_, stdout2, _, _ := command.RunCommand(checkPrometheus)
+	_, stdout2, _, _ := utils.RunCommand(checkPrometheus)
 	version, _ := strconv.Atoi(strings.Trim(stdout2, "\n"))
 	if version <= 28 {
 		return errors.New(`please install prometheus greater than 2.28`)
@@ -49,7 +49,7 @@ func initPrometheusYML(httpaddr string) error {
 
 func backup() error {
 	cmd := "cp " + global.GlobalPrometheusYml + " " + global.GlobalPrometheusYml + ".bak"
-	exitcode, _, stderr, err := command.RunCommand(cmd)
+	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
 	}
@@ -58,7 +58,7 @@ func backup() error {
 
 func initYML(httaddr string) error {
 	cmd := "sh " + global.GlobalPrometheusYmlInit + " " + httaddr + " " + global.GlobalPrometheusYml
-	exitcode, _, stderr, err := command.RunCommand(cmd)
+	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
 	}
