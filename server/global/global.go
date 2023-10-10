@@ -1,7 +1,7 @@
 package global
 
 import (
-	"gitee.com/openeuler/PilotGo-plugins/sdk/plugin/client"
+	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"gorm.io/gorm"
 )
 

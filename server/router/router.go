@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
+	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/prometheus-plugin/global"
 	"openeuler.org/PilotGo/prometheus-plugin/httphandler"
@@ -13,7 +13,6 @@ import (
 func InitRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
-	router.Use(logger.LoggerDebug())
 	router.Use(gin.Recovery())
 
 	return router
