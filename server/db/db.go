@@ -8,9 +8,10 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 	"openeuler.org/PilotGo/prometheus-plugin/config"
-	"openeuler.org/PilotGo/prometheus-plugin/global"
-	"openeuler.org/PilotGo/prometheus-plugin/httphandler/service"
+	"openeuler.org/PilotGo/prometheus-plugin/model"
 )
+
+var MySQL *gorm.DB
 
 var Url string
 
@@ -38,7 +39,7 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 		return err
 	}
 
-	global.GlobalDB.AutoMigrate(&service.PrometheusTarget{})
+	MySQL.AutoMigrate(&model.PrometheusTarget{})
 
 	return nil
 }
@@ -67,7 +68,7 @@ func mysqlInit(ip, username, password, dbname string, port int) (*MysqlManager, 
 	if err != nil {
 		return nil, err
 	}
-	global.GlobalDB = m.db
+	MySQL = m.db
 
 	var db *sql.DB
 	if db, err = m.db.DB(); err != nil {

@@ -4,11 +4,12 @@ import (
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/prometheus-plugin/httphandler/service"
+	"openeuler.org/PilotGo/prometheus-plugin/model"
 )
 
 // 将监控target添加到prometheus插件db
 func AddPrometheusTarget(c *gin.Context) {
-	var target service.PrometheusTarget
+	var target model.PrometheusTarget
 	if err := c.BindJSON(&target); err != nil {
 		response.Fail(c, nil, err.Error())
 		return
@@ -23,7 +24,7 @@ func AddPrometheusTarget(c *gin.Context) {
 
 // 将监控target从prometheus插件db中删除
 func DeletePrometheusTarget(c *gin.Context) {
-	var target service.PrometheusTarget
+	var target model.PrometheusTarget
 	if err := c.BindJSON(&target); err != nil {
 		response.Fail(c, nil, err.Error())
 		return

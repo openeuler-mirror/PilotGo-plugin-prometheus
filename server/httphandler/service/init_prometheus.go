@@ -6,8 +6,12 @@ import (
 	"strings"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
-	"openeuler.org/PilotGo/prometheus-plugin/global"
 	"openeuler.org/PilotGo/prometheus-plugin/utils"
+)
+
+const (
+	GlobalPrometheusYmlInit = "./scripts/init_prometheus_yml.sh"
+	GlobalPrometheusYml     = "/etc/prometheus/prometheus.yml"
 )
 
 func InitPrometheus(httpaddr string) error {
@@ -48,7 +52,7 @@ func initPrometheusYML(httpaddr string) error {
 }
 
 func backup() error {
-	cmd := "cp " + global.GlobalPrometheusYml + " " + global.GlobalPrometheusYml + ".bak"
+	cmd := "cp " + GlobalPrometheusYml + " " + GlobalPrometheusYml + ".bak"
 	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
@@ -57,7 +61,7 @@ func backup() error {
 }
 
 func initYML(httaddr string) error {
-	cmd := "sh " + global.GlobalPrometheusYmlInit + " " + httaddr + " " + global.GlobalPrometheusYml
+	cmd := "sh " + GlobalPrometheusYmlInit + " " + httaddr + " " + GlobalPrometheusYml
 	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil

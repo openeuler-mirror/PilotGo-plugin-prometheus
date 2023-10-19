@@ -8,7 +8,6 @@ import (
 	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"openeuler.org/PilotGo/prometheus-plugin/config"
 	"openeuler.org/PilotGo/prometheus-plugin/db"
-	"openeuler.org/PilotGo/prometheus-plugin/global"
 	"openeuler.org/PilotGo/prometheus-plugin/httphandler/service"
 	"openeuler.org/PilotGo/prometheus-plugin/plugin"
 	"openeuler.org/PilotGo/prometheus-plugin/router"
@@ -36,10 +35,10 @@ func main() {
 
 	server := router.InitRouter()
 
-	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
+	plugin.Client = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
 	router.RegisterAPIs(server)
 	router.StaticRouter(server)
-	global.GlobalClient.Server = config.Config().HttpServer.Addr
+	plugin.Client.Server = config.Config().PilotGoServer.Addr
 
 	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
 		logger.Fatal("failed to run server")

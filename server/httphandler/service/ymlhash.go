@@ -1,7 +1,6 @@
 package service
 
 import (
-	"openeuler.org/PilotGo/prometheus-plugin/global"
 	"openeuler.org/PilotGo/prometheus-plugin/utils"
 )
 
@@ -21,7 +20,7 @@ func CheckYMLHash() (bool, error) {
 		return false, err
 	}
 
-	currentContent, err := utils.FileReadString(global.GlobalPrometheusYml)
+	currentContent, err := utils.FileReadString(GlobalPrometheusYml)
 	if err != nil {
 		return false, err
 	}
@@ -29,7 +28,7 @@ func CheckYMLHash() (bool, error) {
 }
 
 func reset() error {
-	bs, err := utils.FileReadString(global.GlobalPrometheusYml)
+	bs, err := utils.FileReadString(GlobalPrometheusYml)
 	if err != nil {
 		return err
 	}

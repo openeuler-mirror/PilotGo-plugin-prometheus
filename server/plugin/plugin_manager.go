@@ -5,6 +5,8 @@ import (
 	"openeuler.org/PilotGo/prometheus-plugin/config"
 )
 
+var Client *client.Client
+
 func Init(plugin *config.PluginPrometheus, prometheus *config.PrometheusServer) *client.PluginInfo {
 	PluginInfo := client.PluginInfo{
 		Name:        "prometheus",
