@@ -3,20 +3,13 @@ package service
 import (
 	"errors"
 
-	"openeuler.org/PilotGo/prometheus-plugin/global"
+	"openeuler.org/PilotGo/prometheus-plugin/db"
+	"openeuler.org/PilotGo/prometheus-plugin/model"
 )
 
-type PrometheusTarget struct {
-	ID       uint   `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
-	UUID     string `json:"uuid"`
-	TargetIP string `json:"targetIp"`
-	Port     string `json:"port"`
-	ID_idx   string `gorm:"index"`
-}
-
 func GetPrometheusTarget() ([]string, error) {
-	var ips []PrometheusTarget
-	err := global.GlobalDB.Raw("SELECT * FROM prometheus_target ORDER BY id DESC").Scan(&ips).Error
+	var ips []model.PrometheusTarget
+	err := db.MySQL.Raw("SELECT * FROM prometheus_target ORDER BY id DESC").Scan(&ips).Error
 	if err != nil {
 		return []string{}, err
 	}
@@ -32,22 +25,22 @@ func GetPrometheusTarget() ([]string, error) {
 	return targets, nil
 }
 
-func AddPrometheusTarget(pt PrometheusTarget) error {
-	t := PrometheusTarget{
+func AddPrometheusTarget(pt model.PrometheusTarget) error {
+	t := model.PrometheusTarget{
 		UUID:     pt.UUID,
 		TargetIP: pt.TargetIP,
 		Port:     pt.Port,
 	}
-	err := global.GlobalDB.Save(&t).Error
+	err := db.MySQL.Save(&t).Error
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func DeletePrometheusTarget(pt PrometheusTarget) error {
-	var t PrometheusTarget
-	err := global.GlobalDB.Where("uuid = ?", pt.UUID).Unscoped().Delete(t).Error
+func DeletePrometheusTarget(pt model.PrometheusTarget) error {
+	var t model.PrometheusTarget
+	err := db.MySQL.Where("uuid = ?", pt.UUID).Unscoped().Delete(t).Error
 	if err != nil {
 		return err
 	}

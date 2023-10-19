@@ -6,13 +6,14 @@ import (
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/global"
 	"openeuler.org/PilotGo/prometheus-plugin/httphandler"
+	"openeuler.org/PilotGo/prometheus-plugin/plugin"
 )
 
 func InitRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
+	router.Use(logger.RequestLogger())
 	router.Use(gin.Recovery())
 
 	return router
@@ -20,38 +21,38 @@ func InitRouter() *gin.Engine {
 
 func RegisterAPIs(router *gin.Engine) {
 	logger.Debug("router register")
-	global.GlobalClient.RegisterHandlers(router)
+	plugin.Client.RegisterHandlers(router)
 
 	// prometheus api代理
-	prometheus := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name + "/api/v1")
+	prometheus := router.Group("/plugin/" + plugin.Client.PluginInfo.Name + "/api/v1")
 	{
 		prometheus.GET("/query", func(c *gin.Context) {
-			c.Set("query", global.GlobalClient.PluginInfo.ReverseDest)
+			c.Set("query", plugin.Client.PluginInfo.ReverseDest)
 			httphandler.Query(c)
 		})
 		prometheus.GET("/query_range", func(c *gin.Context) {
-			c.Set("query_range", global.GlobalClient.PluginInfo.ReverseDest)
+			c.Set("query_range", plugin.Client.PluginInfo.ReverseDest)
 			httphandler.QueryRange(c)
 		})
 		prometheus.GET("/targets", func(c *gin.Context) {
-			c.Set("targets", global.GlobalClient.PluginInfo.ReverseDest)
+			c.Set("targets", plugin.Client.PluginInfo.ReverseDest)
 			httphandler.Targets(c)
 		})
 		prometheus.GET("/alerts", func(c *gin.Context) {
-			c.Set("alerts", global.GlobalClient.PluginInfo.ReverseDest)
+			c.Set("alerts", plugin.Client.PluginInfo.ReverseDest)
 			httphandler.Alerts(c)
 		})
 
 	}
 
 	// prometheus配置文件http方式获取监控target
-	DBTarget := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
+	DBTarget := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
 	{
 		DBTarget.GET("target", httphandler.DBTargets)
 	}
 
 	//prometheus target crud
-	targetManager := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
+	targetManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
 	{
 		targetManager.POST("addTarget", httphandler.AddPrometheusTarget)
 		targetManager.DELETE("delTarget", httphandler.DeletePrometheusTarget)
