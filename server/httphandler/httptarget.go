@@ -5,24 +5,21 @@ import (
 
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/httphandler/service"
+	"openeuler.org/PilotGo/prometheus-plugin/dao"
+	"openeuler.org/PilotGo/prometheus-plugin/model"
 )
 
 func DBTargets(c *gin.Context) {
-	targets, err := service.GetPrometheusTarget()
+	targets, err := dao.GetPrometheusTarget()
 	if err != nil {
 		response.Fail(c, nil, err.Error())
 		return
 	}
 
-	objs := []PrometheusObject{
+	objs := []model.PrometheusObject{
 		{
 			Targets: targets,
 		},
 	}
 	c.JSON(http.StatusOK, objs)
-}
-
-type PrometheusObject struct {
-	Targets []string `json:"targets"`
 }
