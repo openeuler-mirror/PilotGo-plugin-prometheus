@@ -5,5 +5,8 @@ type PrometheusTarget struct {
 	UUID     string `json:"uuid"`
 	TargetIP string `json:"targetIp"`
 	Port     string `json:"port"`
-	ID_idx   string `gorm:"index"`
+}
+
+type PrometheusObject struct {
+	Targets []string `json:"targets"`
 }

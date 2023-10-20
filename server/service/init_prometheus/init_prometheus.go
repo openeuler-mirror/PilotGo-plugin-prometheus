@@ -1,4 +1,4 @@
-package service
+package initprometheus
 
 import (
 	"errors"
@@ -10,20 +10,14 @@ import (
 )
 
 const (
-	GlobalPrometheusYmlInit = "./scripts/init_prometheus_yml.sh"
+	GlobalPrometheusYmlInit = "../../scripts/init_prometheus_yml.sh"
 	GlobalPrometheusYml     = "/etc/prometheus/prometheus.yml"
 )
 
 func InitPrometheus(httpaddr string) error {
-	checkNodeExporter := "rpm -qa |grep  golang-github-prometheus-node_exporter"
-	_, stdout1, _, _ := utils.RunCommand(checkNodeExporter)
-	if len(strings.Trim(stdout1, "\n")) == 0 {
-		return errors.New(`please use "yum install -y golang-github-prometheus-node_exporter" to install it`)
-	}
-
 	checkPrometheus := `/usr/bin/prometheus --version | grep -oP '(2+\.\d+)\.\d+' | awk -F '.' '{print $2}'`
-	_, stdout2, _, _ := utils.RunCommand(checkPrometheus)
-	version, _ := strconv.Atoi(strings.Trim(stdout2, "\n"))
+	_, stdout, _, _ := utils.RunCommand(checkPrometheus)
+	version, _ := strconv.Atoi(strings.Trim(stdout, "\n"))
 	if version <= 28 {
 		return errors.New(`please install prometheus greater than 2.28`)
 	}

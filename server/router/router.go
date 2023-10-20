@@ -54,8 +54,7 @@ func RegisterAPIs(router *gin.Engine) {
 	//prometheus target crud
 	targetManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
 	{
-		targetManager.POST("addTarget", httphandler.AddPrometheusTarget)
-		targetManager.DELETE("delTarget", httphandler.DeletePrometheusTarget)
+		targetManager.POST("run", httphandler.RunCommand)
 	}
 }
 

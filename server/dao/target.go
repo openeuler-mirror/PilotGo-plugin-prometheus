@@ -1,4 +1,4 @@
-package service
+package dao
 
 import (
 	"errors"
@@ -25,7 +25,7 @@ func GetPrometheusTarget() ([]string, error) {
 	return targets, nil
 }
 
-func AddPrometheusTarget(pt model.PrometheusTarget) error {
+func AddPrometheusTarget(pt *model.PrometheusTarget) error {
 	t := model.PrometheusTarget{
 		UUID:     pt.UUID,
 		TargetIP: pt.TargetIP,
@@ -38,11 +38,20 @@ func AddPrometheusTarget(pt model.PrometheusTarget) error {
 	return nil
 }
 
-func DeletePrometheusTarget(pt model.PrometheusTarget) error {
+func DeletePrometheusTarget(pt *model.PrometheusTarget) error {
 	var t model.PrometheusTarget
 	err := db.MySQL.Where("uuid = ?", pt.UUID).Unscoped().Delete(t).Error
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func IsExistTargetUUID(uuid string) (bool, error) {
+	var r model.PrometheusTarget
+	err := db.MySQL.Where("uuid = ?", uuid).Find(&r).Error
+	if err != nil {
+		return false, errors.New("查询数据库失败：" + err.Error())
+	}
+	return r.ID != 0, nil
 }

@@ -1,4 +1,4 @@
-package service
+package initprometheus
 
 import (
 	"openeuler.org/PilotGo/prometheus-plugin/utils"

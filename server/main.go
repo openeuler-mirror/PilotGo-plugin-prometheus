@@ -8,9 +8,9 @@ import (
 	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"openeuler.org/PilotGo/prometheus-plugin/config"
 	"openeuler.org/PilotGo/prometheus-plugin/db"
-	"openeuler.org/PilotGo/prometheus-plugin/httphandler/service"
 	"openeuler.org/PilotGo/prometheus-plugin/plugin"
 	"openeuler.org/PilotGo/prometheus-plugin/router"
+	initprometheus "openeuler.org/PilotGo/prometheus-plugin/service/init_prometheus"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		os.Exit(-1)
 	}
 
-	if err := service.InitPrometheus(config.Config().HttpServer.Addr); err != nil {
+	if err := initprometheus.InitPrometheus(config.Config().HttpServer.Addr); err != nil {
 		logger.Error("check prometheus error: %s", err)
 		os.Exit(-1)
 	}
