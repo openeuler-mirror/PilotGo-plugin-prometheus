@@ -23,3 +23,12 @@ func DBTargets(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, objs)
 }
+
+func MonitorTargets(c *gin.Context) {
+	targets, err := dao.QueryPrometheusTargets()
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, targets, "获取到prometheus监控列表")
+}

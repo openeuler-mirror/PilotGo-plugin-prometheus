@@ -55,6 +55,7 @@ func RegisterAPIs(router *gin.Engine) {
 	targetManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
 	{
 		targetManager.POST("run", httphandler.RunCommand)
+		targetManager.GET("monitorlist", httphandler.MonitorTargets)
 	}
 }
 
