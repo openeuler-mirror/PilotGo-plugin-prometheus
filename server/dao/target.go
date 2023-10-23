@@ -25,6 +25,15 @@ func GetPrometheusTarget() ([]string, error) {
 	return targets, nil
 }
 
+func QueryPrometheusTargets() ([]model.PrometheusTarget, error) {
+	var targets []model.PrometheusTarget
+	err := db.MySQL.Raw("SELECT * FROM prometheus_target ORDER BY id DESC").Scan(&targets).Error
+	if err != nil {
+		return targets, err
+	}
+	return targets, nil
+}
+
 func AddPrometheusTarget(pt *model.PrometheusTarget) error {
 	t := model.PrometheusTarget{
 		UUID:     pt.UUID,

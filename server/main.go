@@ -41,6 +41,6 @@ func main() {
 	plugin.Client.Server = config.Config().PilotGoServer.Addr
 
 	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
-		logger.Fatal("failed to run server")
+		logger.Fatal("failed to run server: %v", err)
 	}
 }
