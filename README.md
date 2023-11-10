@@ -44,6 +44,11 @@ $ go run main.go
 ```
 网页查看 http://ip:8090/plugin/prometheus
 
+#### 补充链接
+1.  [PilotGo使用手册](https://gitee.com/openeuler/docs/tree/master/docs/zh/docs/PilotGo/使用手册.md)
+2.  PilotGo[代码仓](https://gitee.com/openeuler/PilotGo)
+3.  PilotGo[软件包仓](https://gitee.com/src-openeuler/PilotGo)
+
 #### 特技
 
 1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
