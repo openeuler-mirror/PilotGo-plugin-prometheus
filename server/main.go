@@ -10,6 +10,7 @@ import (
 	"openeuler.org/PilotGo/prometheus-plugin/db"
 	"openeuler.org/PilotGo/prometheus-plugin/plugin"
 	"openeuler.org/PilotGo/prometheus-plugin/router"
+	"openeuler.org/PilotGo/prometheus-plugin/service"
 	initprometheus "openeuler.org/PilotGo/prometheus-plugin/service/init_prometheus"
 )
 
@@ -38,6 +39,7 @@ func main() {
 	plugin.Client = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
 	router.RegisterAPIs(server)
 	router.StaticRouter(server)
+	service.GetTags() //pilotgo机器列表tag标签
 	plugin.Client.Server = config.Config().PilotGoServer.Addr
 
 	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
