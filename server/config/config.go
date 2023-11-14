@@ -34,7 +34,6 @@ type ServerConfig struct {
 	PluginPrometheus *PluginPrometheus `yaml:"plugin_prometheus"`
 	PrometheusServer *PrometheusServer `yaml:"prometheus_server"`
 	HttpServer       *HttpServer       `yaml:"http_server"`
-	PilotGoServer    *PilotGoServer    `yaml:"pilotgo_server"`
 	Logopts          *logger.LogOpts   `yaml:"log"`
 	Mysql            *MysqlDBInfo      `yaml:"mysql"`
 }
