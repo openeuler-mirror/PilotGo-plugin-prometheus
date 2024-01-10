@@ -6,10 +6,10 @@ import (
 
 const ymlfile = "./.prometheus-yml.data"
 
-func CheckYMLHash() (bool, error) {
+func CheckYMLHash(httpaddr string) (bool, error) {
 
 	if !utils.IsFileExist(ymlfile) {
-		err := reset()
+		err := reset(httpaddr)
 		if err != nil {
 			return false, err
 		}
@@ -27,7 +27,10 @@ func CheckYMLHash() (bool, error) {
 	return currentContent != savedContent, nil
 }
 
-func reset() error {
+func reset(httpaddr string) error {
+	if err := initYML(httpaddr); err != nil {
+		return err
+	}
 	bs, err := utils.FileReadString(GlobalPrometheusYml)
 	if err != nil {
 		return err

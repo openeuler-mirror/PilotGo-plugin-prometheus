@@ -11,7 +11,9 @@ import (
 
 // 运行远程命令安装、卸载exporter
 func RunCommand(c *gin.Context) {
-	d := &common.CmdStruct{}
+	d := &struct {
+		MachineUUIDs []string `json:"machine_uuids"`
+	}{}
 	if err := c.ShouldBind(d); err != nil {
 		logger.Debug("绑定批次参数失败：%s", err)
 		response.Fail(c, nil, "parameter error")
@@ -29,14 +31,17 @@ func RunCommand(c *gin.Context) {
 		return
 	}
 
-	run_result := func(result []*common.RunResult) {
+	run_result := func(result []*common.CmdResult) {
 		for _, res := range result {
 			if err := service.ProcessResult(res, command_type); err != nil {
 				logger.Error("处理结果失败：%v", err.Error())
 			}
 		}
 	}
-	err := plugin.Client.RunCommandAsync(d.Batch, command, run_result)
+	dd := &common.Batch{
+		MachineUUIDs: d.MachineUUIDs,
+	}
+	err := plugin.Client.RunCommandAsync(dd, command, run_result)
 	if err != nil {
 		logger.Error("远程调用失败：%v", err.Error())
 		response.Fail(c, nil, err.Error())

@@ -15,14 +15,14 @@ func GetTags() {
 				tag := common.Tag{
 					UUID: uuid,
 					Type: common.TypeOk,
-					Data: "已安装agent",
+					Data: "exporter",
 				}
 				tags = append(tags, tag)
 			} else {
 				tag := common.Tag{
 					UUID: uuid,
 					Type: common.TypeError,
-					Data: "未安装agent",
+					Data: "",
 				}
 				tags = append(tags, tag)
 			}

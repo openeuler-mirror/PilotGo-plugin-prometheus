@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	GlobalPrometheusYmlInit = "../../scripts/init_prometheus_yml.sh"
+	GlobalPrometheusYmlInit = "scripts/init_prometheus_yml.sh"
 	GlobalPrometheusYml     = "/etc/prometheus/prometheus.yml"
 )
 
@@ -22,7 +22,7 @@ func InitPrometheus(httpaddr string) error {
 		return errors.New(`please install prometheus greater than 2.28`)
 	}
 
-	ok, err := CheckYMLHash()
+	ok, err := CheckYMLHash(httpaddr)
 	if ok && err == nil {
 		err = initPrometheusYML(httpaddr)
 		if err != nil {
@@ -60,5 +60,5 @@ func initYML(httaddr string) error {
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
 	}
-	return err
+	return errors.New(stderr)
 }
