@@ -143,12 +143,14 @@ func RequestLogger() gin.HandlerFunc {
 		clientIP := c.ClientIP()
 
 		// 日志格式
-		Debug("status_code:%d latency_time:%s client_ip:%s req_method:%s req_uri:%s",
-			statusCode,
-			latencyTime,
-			clientIP,
-			reqMethod,
-			reqUri,
-		)
+		if reqUri != "/api/v1/pluginapi/heartbeat" {
+			Debug("status_code:%d latency_time:%s client_ip:%s req_method:%s req_uri:%s",
+				statusCode,
+				latencyTime,
+				clientIP,
+				reqMethod,
+				reqUri,
+			)
+		}
 	}
 }

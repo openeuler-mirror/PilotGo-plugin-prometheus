@@ -4,6 +4,8 @@ gitee.com/openeuler/PilotGo/sdk v0.0.0-20231110131016-eda5d89f4a35 h1:Lcp6rAHmRu
 gitee.com/openeuler/PilotGo/sdk v0.0.0-20231110131016-eda5d89f4a35/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
 gitee.com/openeuler/PilotGo/sdk v0.0.0-20231114113407-d762078e13db h1:Mh5VnWRGJFI33V5Acx0tilefUKvLhjbXU2QBnBRjgFY=
 gitee.com/openeuler/PilotGo/sdk v0.0.0-20231114113407-d762078e13db/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20240110060359-307cb097716f h1:DGwrH8ikENblWnxpTdF21OuQKcN3I4uLkp4oKi2nbuw=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20240110060359-307cb097716f/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
 github.com/bytedance/sonic v1.9.1 h1:6iJ6NqdoxCDr6mbY8h18oSO+cShGSMRGCEo7F2h0x8s=
 github.com/bytedance/sonic v1.9.1/go.mod h1:i736AoUSYt75HyZLoJW9ERYxcy6eaN6h4BZXU064P/U=

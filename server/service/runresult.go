@@ -19,36 +19,33 @@ const (
 	CommandRemove_Cmd  = "yum remove -y golang-github-prometheus-node_exporter && echo '卸载成功' || echo '卸载失败'"
 )
 
-func ProcessResult(res *common.RunResult, command_type string) error {
-	if res.Error != nil {
-		return errors.New(res.Error.(string))
-	}
+func ProcessResult(res *common.CmdResult, command_type string) error {
 	result := &model.PrometheusTarget{
-		UUID:     res.CmdResult.MachineUUID,
-		TargetIP: res.CmdResult.MachineIP,
+		UUID:     res.MachineUUID,
+		TargetIP: res.MachineIP,
 		Port:     "9100",
 	}
 
-	ok, err := dao.IsExistTargetUUID(res.CmdResult.MachineUUID)
+	ok, err := dao.IsExistTargetUUID(res.MachineUUID)
 	if err != nil {
 		return err
 	}
 
 	if !ok && command_type == CommandInstall_Type && ResultOptStdout(res) {
-		if Err := dao.AddPrometheusTarget(result); Err != nil {
-			return errors.New("保存结果失败：" + Err.Error())
+		if err := dao.AddPrometheusTarget(result); err != nil {
+			return errors.New("保存结果失败：" + err.Error())
 		}
 	}
 	if ok && command_type == CommandRemove_Type && ResultOptStdout(res) {
-		if Err := dao.DeletePrometheusTarget(result); Err != nil {
-			return errors.New("删除prometheus target失败: " + Err.Error())
+		if err := dao.DeletePrometheusTarget(result); err != nil {
+			return errors.New("删除prometheus target失败: " + err.Error())
 		}
 	}
 	return nil
 }
 
-func ResultOptStdout(res *common.RunResult) bool {
-	stdout := res.CmdResult.Stdout
+func ResultOptStdout(res *common.CmdResult) bool {
+	stdout := res.Stdout
 	for _, msg := range ResultOptMsg {
 		if strings.Contains(stdout, msg) {
 			return true
