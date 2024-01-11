@@ -12,7 +12,7 @@ import (
 // 运行远程命令安装、卸载exporter
 func RunCommand(c *gin.Context) {
 	d := &struct {
-		MachineUUIDs []string `json:"machine_uuids"`
+		MachineUUIDs []string `json:"uuids"`
 	}{}
 	if err := c.ShouldBind(d); err != nil {
 		logger.Debug("绑定批次参数失败：%s", err)
