@@ -7,6 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const TokenCookie = "PluginToken"
+
 type GetTagsCallback func([]string) []common.Tag
 
 type Client struct {
@@ -16,6 +18,9 @@ type Client struct {
 
 	// 远程PilotGo server地址
 	server string
+
+	// 鉴权token
+	token string
 
 	// 用于event消息处理
 	eventChan        chan *common.EventMessage
@@ -30,6 +35,9 @@ type Client struct {
 
 	// 用于平台扩展点功能
 	extentions []common.Extention
+
+	//用于权限校验
+	permissions []common.Permission
 
 	//bind阻塞功能支持
 	mu   sync.Mutex
@@ -47,6 +55,8 @@ func DefaultClient(desc *PluginInfo) *Client {
 
 		asyncCmdResultChan:      make(chan *common.AsyncCmdResult, 20),
 		cmdProcessorCallbackMap: make(map[string]CallbackHandler),
+		extentions:              []common.Extention{},
+		permissions:             []common.Permission{},
 	}
 	global_client.cond = sync.NewCond(&global_client.mu)
 
@@ -76,10 +86,6 @@ func (client *Client) RegisterHandlers(router *gin.Engine) {
 
 	api := router.Group("/plugin_manage/api/v1/")
 	{
-		api.GET("/extentions", func(c *gin.Context) {
-			c.Set("__internal__client_instance", client)
-		}, extentionsHandler)
-
 		api.GET("/gettags", func(c *gin.Context) {
 			c.Set("__internal__client_instance", client)
 		}, tagsHandler)
