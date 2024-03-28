@@ -23,7 +23,8 @@ type PluginInfo struct {
 // 用于插件与PilotGo server通讯
 type PluginFullInfo struct {
 	PluginInfo
-	Extentions []common.Extention
+	Extentions  []common.Extention
+	Permissions []common.Permission
 }
 
 func (c *Client) GetPluginInfo(name string) (*PluginInfo, error) {
@@ -31,7 +32,11 @@ func (c *Client) GetPluginInfo(name string) (*PluginInfo, error) {
 		return nil, errors.New("unbind PilotGo-server platform")
 	}
 	url := c.Server() + "/api/v1/pluginapi/plugins"
-	r, err := httputils.Get(url, nil)
+	r, err := httputils.Get(url, &httputils.Params{
+		Cookie: map[string]string{
+			TokenCookie: c.token,
+		},
+	})
 	if err != nil {
 		return nil, err
 	}
