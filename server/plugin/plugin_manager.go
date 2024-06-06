@@ -15,7 +15,7 @@ func Init(plugin *config.PluginPrometheus, prometheus *config.PrometheusServer) 
 		Author:      "zhanghan",
 		Email:       "zhanghan@kylinos.cn",
 		Url:         plugin.URL,
-		PluginType:  plugin.PluginType,
+		PluginType:  "iframe",
 		ReverseDest: "http://" + prometheus.Addr,
 	}
 

@@ -1,6 +1,5 @@
 plugin_prometheus:
   url: "http://localhost:8090"
-  plugin_type: "iframe"   # iframe   micro-app
 prometheus_server:
   addr: "localhost:9090"
 http_server:
