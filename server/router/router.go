@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 
+	"gitee.com/openeuler/PilotGo-plugins/event/sdk"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/prometheus-plugin/httphandler"
@@ -22,6 +23,8 @@ func InitRouter() *gin.Engine {
 func RegisterAPIs(router *gin.Engine) {
 	logger.Debug("router register")
 	plugin.Client.RegisterHandlers(router)
+	sdk.RegisterEventHandlers(router, plugin.Client)
+	sdk.UnPluginListenEventHandler()
 
 	// prometheus api代理
 	prometheus := router.Group("/plugin/" + plugin.Client.PluginInfo.Name + "/api/v1")
