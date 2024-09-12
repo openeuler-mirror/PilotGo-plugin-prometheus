@@ -1,8 +1,9 @@
 module openeuler.org/PilotGo/prometheus-plugin
 
-go 1.21
+go 1.21.6
 
 require (
+	gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730114546-6471a280e4d2
 	github.com/gin-gonic/gin v1.9.1
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.5.2
@@ -17,7 +18,7 @@ require (
 )
 
 require (
-	gitee.com/openeuler/PilotGo/sdk v0.0.0-20240328030306-4b66a7291c6e
+	gitee.com/openeuler/PilotGo/sdk v0.0.0-20240724051221-c832c8ccaee0
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
@@ -42,10 +43,10 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	golang.org/x/arch v0.7.0 // indirect
-	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/net v0.20.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/crypto v0.21.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/protobuf v1.32.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

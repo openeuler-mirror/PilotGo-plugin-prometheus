@@ -1,4 +1,4 @@
-package common
+package sdk
 
 import "encoding/json"
 
@@ -11,23 +11,18 @@ const (
 	// 主机卸载软件包
 	MsgPackageUninstall = 2
 	// 主机ip变更
-	MsgIPChange = 3
+	MsgIPChange = 10
 
 	// 平台新增主机
-	MsgHostAdd = 10
+	MsgHostAdd = 20
 	// 平台移除主机
-	MsgHostRemove = 11
+	MsgHostRemove = 21
 
 	// 插件添加
-	MsgPluginAdd = 20
+	MsgPluginAdd = 30
 	// 插件卸载
-	MsgPluginRemove = 21
+	MsgPluginRemove = 31
 )
-
-type EventMessage struct {
-	MessageType int
-	MessageData string
-}
 
 // 将 MessageData json字符串转换成指定结构体的message消息数据
 func ToMessage(d string, s interface{}) error {
