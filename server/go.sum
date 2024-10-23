@@ -1,7 +1,3 @@
-gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240726061006-b7fe75acff81 h1:pLX05z8LxTDijvN0Smdd8EViWlb9ZksUww4YTzxZYEk=
-gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240726061006-b7fe75acff81/go.mod h1:qKN5mZT240WasFoPqLnmQWJ/PBB5+Db0BiLmCfYaLBk=
-gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730104103-e46053c0425e h1:Ed0+/I0NLwaxSVCp+J65CsXRsvw3XofwFBJ1rhr1lpo=
-gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730104103-e46053c0425e/go.mod h1:qKN5mZT240WasFoPqLnmQWJ/PBB5+Db0BiLmCfYaLBk=
 gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730114546-6471a280e4d2 h1:VfG7DsypX8WR5AFIHQmSQ3ABBjWFRTNPNESRWdDCV6M=
 gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730114546-6471a280e4d2/go.mod h1:qKN5mZT240WasFoPqLnmQWJ/PBB5+Db0BiLmCfYaLBk=
 gitee.com/openeuler/PilotGo/sdk v0.0.0-20240724051221-c832c8ccaee0 h1:N5kNwQ7xUE5zolJJhAwGwZLPzkPixtKcVFVkcHE1D1U=
@@ -42,6 +38,8 @@ github.com/goccy/go-json v0.10.2/go.mod h1:6MelG93GURQebXPDq3khkgXZkazVtN9CRI+MG
 github.com/google/go-cmp v0.5.5 h1:Khx7svrCpmxxtHBq5j2mp/xVjsi8hQMfNLvJFAlrGgU=
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
+github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
+github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.1.5 h1:/o9tlHleP7gOFmsnYNz3RGnqzefHA47wQpKrrdTIwXQ=
