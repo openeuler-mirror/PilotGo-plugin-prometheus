@@ -10,21 +10,21 @@ import (
 )
 
 const (
-	GlobalPrometheusYmlInit = "scripts/init_prometheus_yml.sh"
-	GlobalPrometheusYml     = "/etc/prometheus/prometheus.yml"
+	InitPrometheusYml = "scripts/init_prometheus_yml.sh"
+	PrometheusYml     = "/etc/prometheus/prometheus.yml"
 )
 
-func InitPrometheus(httpaddr string) error {
-	checkPrometheus := `/usr/bin/prometheus --version | grep -oP '(2+\.\d+)\.\d+' | awk -F '.' '{print $2}'`
-	_, stdout, _, _ := utils.RunCommand(checkPrometheus)
+func Init(httpaddr string) error {
+	checkPrometheusVersion := `/usr/bin/prometheus --version | grep -oP '(2+\.\d+)\.\d+' | awk -F '.' '{print $2}'`
+	_, stdout, _, _ := utils.RunCommand(checkPrometheusVersion)
 	version, _ := strconv.Atoi(strings.Trim(stdout, "\n"))
 	if version <= 28 {
 		return errors.New(`please install prometheus greater than 2.28`)
 	}
 
-	ok, err := CheckYMLHash(httpaddr)
+	ok, err := checkPrometheusYmlConsistency(httpaddr)
 	if ok && err == nil {
-		err = initPrometheusYML(httpaddr)
+		err = initPrometheusYml(httpaddr)
 		if err != nil {
 			return err
 		}
@@ -32,12 +32,12 @@ func InitPrometheus(httpaddr string) error {
 	return nil
 }
 
-func initPrometheusYML(httpaddr string) error {
+func initPrometheusYml(httpaddr string) error {
 	if err := backup(); err != nil {
 		return err
 	}
 
-	if err := initYML(httpaddr); err != nil {
+	if err := initYml(httpaddr); err != nil {
 		return err
 	}
 
@@ -46,7 +46,7 @@ func initPrometheusYML(httpaddr string) error {
 }
 
 func backup() error {
-	cmd := "cp " + GlobalPrometheusYml + " " + GlobalPrometheusYml + ".bak"
+	cmd := "cp " + PrometheusYml + " " + PrometheusYml + ".bak"
 	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
@@ -54,8 +54,8 @@ func backup() error {
 	return err
 }
 
-func initYML(httaddr string) error {
-	cmd := "sh " + GlobalPrometheusYmlInit + " " + httaddr + " " + GlobalPrometheusYml
+func initYml(httaddr string) error {
+	cmd := "sh " + InitPrometheusYml + " " + httaddr + " " + PrometheusYml
 	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
