@@ -12,6 +12,11 @@ scrape_configs:
     - url: http://$1/plugin/prometheus/target
       refresh_interval: 60s
 EOF
+cat>/etc/prometheus/rules.yaml<<EOF
+groups:
+- name: node
+  rules:
+EOF
 echo "初始化"
 # restart
 systemctl restart prometheus;

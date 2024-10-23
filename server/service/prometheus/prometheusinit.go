@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	InitPrometheusYml = "scripts/init_prometheus_yml.sh"
+	PrometheusYmlInit = "scripts/init_prometheus_yml.sh"
 	PrometheusYml     = "/etc/prometheus/prometheus.yml"
 )
 
@@ -55,7 +55,7 @@ func backup() error {
 }
 
 func initYml(httaddr string) error {
-	cmd := "sh " + InitPrometheusYml + " " + httaddr + " " + PrometheusYml
+	cmd := "sh " + PrometheusYmlInit + " " + httaddr + " " + PrometheusYml
 	exitcode, _, stderr, err := utils.RunCommand(cmd)
 	if exitcode == 0 && stderr == "" && err == nil {
 		return nil
