@@ -18,7 +18,7 @@
     <grid-layout :col-num="16" :is-draggable="grid.draggable" :is-resizable="grid.resizable" :layout="layout"
       :row-height="30" :use-css-transforms="true" :vertical-compact="true">
       <template v-for="(item, indexVar) in layout">
-        <grid-item :key="indexVar" :h="item.h" :i="item.i" :static="item.static" :w="item.w" :x="item.x" :y="item.y"
+        <!-- <grid-item :key="indexVar" :h="item.h" :i="item.i" :static="item.static" :w="item.w" :x="item.x" :y="item.y"
           :min-w="2" :min-h="2" @resize="SizeAutoChange(item.i, item.query.isChart)" @resized="SizeAutoChange"
           drag-allow-from=".drag" drag-ignore-from=".noDrag" v-if="item.display">
           <div class="drag">
@@ -30,6 +30,26 @@
             </my-echarts>
           </div>
 
+        </grid-item> -->
+        <grid-item :key="indexVar" :h="item.h" :i="item.i" :static="item.static" :w="item.w" :x="item.x" :y="item.y"
+          :min-w="2" :min-h="2" @resize="SizeAutoChange(item.i, item.query.isChart)" @resized="SizeAutoChange"
+          drag-allow-from=".drag" drag-ignore-from=".noDrag" v-if="item.display">
+          <div v-if="!item.static" class="drag">
+            <span class="drag-title">{{ item.title }}</span>
+          </div>
+          <div class="noDrag" v-if="!item.static">
+            <my-echarts :ref="(el: any) => { if (el) chart[indexVar] = el }" :query="item.query" :timeChange="time_change"
+              :startTime="startTime" :endTime="endTime" style="width:100%;height:100%;">
+            </my-echarts>
+          </div>
+          <div class="noDrag staticV" v-if="item.static">
+            <my-echarts :ref="(el: any) => { if (el) chart[indexVar] = el }" :query="item.query" :timeChange="time_change"
+              style="width:100%;height:90%;">
+            </my-echarts>
+            <div class="staticV-title" style="width:100%; height:10%;">
+              <span v-if="item.static" class="staticV-title-span">{{ item.title }}</span>
+            </div>
+          </div>
         </grid-item>
       </template>
     </grid-layout>
@@ -55,6 +75,7 @@ const startTime = ref(0);
 const endTime = ref(0);
 startTime.value = (new Date() as any) / 1000 - 60 * 60 * 2;
 endTime.value = (new Date() as any) / 1000;
+const time_change = ref(0);
 const grid = reactive({
   draggable: true,
   resizable: true,
@@ -85,6 +106,7 @@ const handleChangeIp = (ip: string) => {
 
 // 选择展示时间范围
 const changeDate = (value: number[]) => {
+  time_change.value = Math.random() * 1000;
   if (value) {
     startTime.value = (new Date(value[0]) as any) / 1000;
     endTime.value = (new Date(value[1]) as any) / 1000;
@@ -180,6 +202,28 @@ onMounted(() => {
         font-size: 20px;
         color: #67e0e3;
         user-select: none;
+      }
+    }
+
+    .staticV {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      margin-top: 0;
+
+      &-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &-span {
+          display: inline-block;
+          color: #303133; //rgb(187, 208, 217);
+          font-size: 14px;
+          font-weight: 500;
+        }
       }
     }
 
