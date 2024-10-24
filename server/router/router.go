@@ -60,6 +60,12 @@ func RegisterAPIs(router *gin.Engine) {
 		targetManager.POST("run", httphandler.RunCommand)
 		targetManager.GET("monitorlist", httphandler.MonitorTargets)
 	}
+
+	//prometheus alert rule manager
+	ruleManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
+	{
+		ruleManager.POST("ruleAdd", httphandler.AddRuleHandler)
+	}
 }
 
 func StaticRouter(router *gin.Engine) {
