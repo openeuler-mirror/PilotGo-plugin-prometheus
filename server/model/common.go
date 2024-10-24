@@ -9,4 +9,7 @@ type PrometheusTarget struct {
 
 type PrometheusObject struct {
 	Targets []string `json:"targets"`
+	Labels  struct {
+		Group string `json:"group"`
+	} `json:"labels"`
 }
