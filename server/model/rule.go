@@ -14,8 +14,8 @@ type Rule struct {
 type RuleTarget struct {
 	ID     int    `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
 	RuleId int    `gorm:"uniqueIndex:idx_rule_ip" json:"ruleId"`
-	IP     string `gorm:"uniqueIndex:idx_rule_ip" json:"ip"`
-	UUID   int    `gorm:"uniqueIndex:idx_rule_ip" json:"uuid"`
+	IP     string `gorm:"uniqueIndex:idx_rule_ip, length:100" json:"ip"`
+	UUID   string `gorm:"uniqueIndex:idx_rule_ip, length:100" json:"uuid"`
 }
 
 type AlertRuleYaml struct {
