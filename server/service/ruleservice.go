@@ -7,12 +7,27 @@ import (
 	"github.com/google/uuid"
 	"openeuler.org/PilotGo/prometheus-plugin/dao"
 	"openeuler.org/PilotGo/prometheus-plugin/model"
+	initprometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
 )
 
 func AddRule(alert *model.Rule) error {
 	alertLabel := uuid.New().String()
 
-	err := dao.SaveRuleList(&model.Rule{
+	err := initprometheus.TestingUpdateRule(testDataJoinToYaml(alert, alertLabel)) //验证新增配置是否有误
+	if err != nil {
+		return err
+	}
+	// 更新yaml文件
+	yamlData, err := addRuleDataJoinToYaml(alert, alertLabel)
+	if err != nil {
+		return err
+	}
+	err = initprometheus.UpdateAlertYml(yamlData)
+	if err != nil {
+		return err
+	}
+
+	err = dao.SaveRuleList(&model.Rule{
 		AlertName:      alert.AlertName,
 		CustomDesc:     alert.CustomDesc,
 		MonitorMetrics: alert.MonitorMetrics,
