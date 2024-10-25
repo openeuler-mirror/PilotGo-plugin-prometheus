@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 
+	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/google/uuid"
 	"openeuler.org/PilotGo/prometheus-plugin/dao"
 	"openeuler.org/PilotGo/prometheus-plugin/model"
@@ -45,4 +46,22 @@ func AddRule(alert *model.Rule) error {
 		}
 	}
 	return nil
+}
+func SearchRules(search string, query *response.PaginationQ) ([]*model.Rule, int, error) {
+	var rules []*model.Rule
+	var total int64
+	var err error
+
+	if len(search) != 0 {
+		rules, total, err = dao.SearchRules(search, query)
+		if err != nil {
+			return []*model.Rule{}, 0, err
+		}
+	} else {
+		rules, total, err = dao.QueryRulesPage(query)
+		if err != nil {
+			return []*model.Rule{}, 0, err
+		}
+	}
+	return rules, int(total), nil
 }
