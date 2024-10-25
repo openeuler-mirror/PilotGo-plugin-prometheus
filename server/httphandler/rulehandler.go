@@ -25,3 +25,20 @@ func AddRuleHandler(c *gin.Context) {
 	}
 	response.Success(c, nil, "添加告警配置成功")
 }
+func QueryRules(c *gin.Context) {
+
+	query := &response.PaginationQ{}
+	err := c.ShouldBindQuery(query)
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+
+	search := c.Query("search")
+	data, total, err := service.SearchRules(search, query)
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.DataPagination(c, data, total, query)
+}

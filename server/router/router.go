@@ -65,6 +65,7 @@ func RegisterAPIs(router *gin.Engine) {
 	ruleManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
 	{
 		ruleManager.POST("ruleAdd", httphandler.AddRuleHandler)
+		ruleManager.GET("ruleQuery", httphandler.QueryRules)
 	}
 }
 
