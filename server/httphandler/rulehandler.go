@@ -35,6 +35,25 @@ func DeleteRuleList(c *gin.Context) {
 	}
 	response.Success(c, nil, "删除成功")
 }
+
+func UpdateRule(c *gin.Context) {
+
+	var a model.Rule
+	if err := c.Bind(&a); err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+
+	if len(a.AlertTargets) == 0 {
+		response.Fail(c, nil, "请选择监控机器")
+		return
+	}
+	if err := service.UpdateRule(&a); err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, nil, "已更新告警配置")
+}
 func QueryRules(c *gin.Context) {
 
 	query := &response.PaginationQ{}
