@@ -78,3 +78,41 @@ func DeleteRule(id string) error {
 	err := db.MySQL.Where("id = ?", id).Delete(&model.Rule{}).Error
 	return err
 }
+
+func UpdateRule(id int, alert *model.Rule) error {
+	tx := db.MySQL.Begin()
+
+	if err := tx.Model(&model.Rule{}).Where("id = ?", id).Select("alert_name", "custom_desc", "monitor_metrics", "alarm_threshold", "forsearch", "severity", "batches").Updates(alert).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	if err := tx.Where("rule_id = ?", id).Delete(&model.RuleTarget{}).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	for _, target := range alert.AlertTargets {
+		target.RuleId = id
+		if err := tx.Clauses(clause.OnConflict{
+			DoNothing: true,
+		}).Create(&target).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
+	return tx.Commit().Error
+}
+
+func QueryRules() ([]model.Rule, error) {
+	var alerts []model.Rule
+	err := db.MySQL.Order("id desc").Preload("AlertTargets").Find(&alerts).Error
+	return alerts, err
+}
+
+func QueryRulesNotIncludedId(id string) ([]model.Rule, error) {
+	var alerts []model.Rule
+	err := db.MySQL.Order("id desc").Where("id <> ?", id).Preload("AlertTargets").Find(&alerts).Error
+	return alerts, err
+}
