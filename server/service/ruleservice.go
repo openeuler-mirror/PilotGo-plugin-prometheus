@@ -8,13 +8,13 @@ import (
 	"github.com/google/uuid"
 	"openeuler.org/PilotGo/prometheus-plugin/dao"
 	"openeuler.org/PilotGo/prometheus-plugin/model"
-	initprometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
+	prometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
 )
 
 func AddRule(alert *model.Rule) error {
 	alertLabel := uuid.New().String()
 
-	err := initprometheus.TestingUpdateRule(testDataJoinToYaml(alert, alertLabel)) //验证新增配置是否有误
+	err := prometheus.TestingUpdateRule(testDataJoinToYaml(alert, alertLabel)) //验证新增配置是否有误
 	if err != nil {
 		return err
 	}
@@ -23,7 +23,7 @@ func AddRule(alert *model.Rule) error {
 	if err != nil {
 		return err
 	}
-	err = initprometheus.UpdateAlertYml(yamlData)
+	err = prometheus.UpdateAlertYml(yamlData)
 	if err != nil {
 		return err
 	}
@@ -54,7 +54,7 @@ func DeleteRuleList(id string) error {
 		return err
 	}
 
-	err = initprometheus.UpdateAlertYml(yamlData)
+	err = prometheus.UpdateAlertYml(yamlData)
 	if err != nil {
 		return err
 	}
@@ -62,6 +62,41 @@ func DeleteRuleList(id string) error {
 	err = dao.DeleteRule(id)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+func UpdateRule(a *model.Rule) error {
+	err := prometheus.TestingUpdateRule(testDataJoinToYaml(a, a.AlertLabel)) //验证编辑的配置是否有误
+	if err != nil {
+		return err
+	}
+	// 更新yaml文件
+	yamlData, err := updateRuleDataJoinToYaml(a)
+	if err != nil {
+		return err
+	}
+	err = prometheus.UpdateAlertYml(yamlData)
+	if err != nil {
+		return err
+	}
+
+	updateAlert := &model.Rule{
+		AlertName:      a.AlertName,
+		CustomDesc:     a.CustomDesc,
+		MonitorMetrics: a.MonitorMetrics,
+		AlarmThreshold: a.AlarmThreshold,
+		Forsearch:      a.Forsearch,
+		Severity:       a.Severity,
+		AlertTargets:   a.AlertTargets,
+	}
+
+	if err := dao.UpdateRule(a.ID, updateAlert); err != nil {
+		if strings.Contains(err.Error(), "重复键违反唯一约束") {
+			return errors.New("请确认该规则是否存在或已做修改")
+		} else {
+			return err
+		}
 	}
 	return nil
 }
