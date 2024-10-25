@@ -47,6 +47,24 @@ func AddRule(alert *model.Rule) error {
 	}
 	return nil
 }
+
+func DeleteRuleList(id string) error {
+	yamlData, err := deleteRuleDataJoinToYaml(id)
+	if err != nil {
+		return err
+	}
+
+	err = initprometheus.UpdateAlertYml(yamlData)
+	if err != nil {
+		return err
+	}
+
+	err = dao.DeleteRule(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func SearchRules(search string, query *response.PaginationQ) ([]*model.Rule, int, error) {
 	var rules []*model.Rule
 	var total int64

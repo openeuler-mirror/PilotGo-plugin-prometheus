@@ -25,6 +25,16 @@ func AddRuleHandler(c *gin.Context) {
 	}
 	response.Success(c, nil, "添加告警配置成功")
 }
+
+func DeleteRuleList(c *gin.Context) {
+	id := c.Query("id")
+	err := service.DeleteRuleList(id)
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, nil, "删除成功")
+}
 func QueryRules(c *gin.Context) {
 
 	query := &response.PaginationQ{}
