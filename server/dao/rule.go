@@ -74,3 +74,7 @@ func SearchRules(search string, query *response.PaginationQ) ([]*model.Rule, int
 	}
 	return alert, total, nil
 }
+func DeleteRule(id string) error {
+	err := db.MySQL.Where("id = ?", id).Delete(&model.Rule{}).Error
+	return err
+}

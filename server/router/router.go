@@ -66,6 +66,7 @@ func RegisterAPIs(router *gin.Engine) {
 	{
 		ruleManager.POST("ruleAdd", httphandler.AddRuleHandler)
 		ruleManager.GET("ruleQuery", httphandler.QueryRules)
+		ruleManager.GET("ruleDelete", httphandler.DeleteRuleList)
 	}
 }
 
