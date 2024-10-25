@@ -210,3 +210,65 @@ func deleteRuleDataJoinToYaml(id string) (*model.AlertRuleYaml, error) {
 	}
 	return Yml, nil
 }
+func updateRuleDataJoinToYaml(alert *model.Rule) (*model.AlertRuleYaml, error) {
+	rules, err := dao.QueryRules()
+	if err != nil {
+		return &model.AlertRuleYaml{}, err
+	}
+	var alertRules []model.AlertRule
+	for _, rule := range rules {
+		if rule.ID != alert.ID {
+			template := alertTemplate(rule.MonitorMetrics, rule.AlarmThreshold, rule.AlertLabel)
+			alertRule := &model.AlertRule{
+				AlertName:  rule.AlertName,
+				Expression: template.Expression,
+				Forsearch:  rule.Forsearch + "s",
+				Labels: struct {
+					Severity string "yaml:\"severity\" json:\"severity\""
+					Metric   string "yaml:\"metric\" json:\"metric\""
+				}{
+					Severity: rule.Severity,
+					Metric:   rule.MonitorMetrics,
+				},
+				Annotations: struct {
+					Description string "yaml:\"description\" json:\"description\""
+					Summary     string "yaml:\"summary\" json:\"summary\""
+				}{
+					Summary:     template.Summary,
+					Description: template.Description,
+				},
+			}
+			alertRules = append(alertRules, *alertRule)
+		} else {
+			template := alertTemplate(alert.MonitorMetrics, alert.AlarmThreshold, alert.AlertLabel)
+			alertRule := &model.AlertRule{
+				AlertName:  alert.AlertName,
+				Expression: template.Expression,
+				Forsearch:  alert.Forsearch + "s",
+				Labels: struct {
+					Severity string "yaml:\"severity\" json:\"severity\""
+					Metric   string "yaml:\"metric\" json:\"metric\""
+				}{
+					Severity: alert.Severity,
+					Metric:   alert.MonitorMetrics,
+				},
+				Annotations: struct {
+					Description string "yaml:\"description\" json:\"description\""
+					Summary     string "yaml:\"summary\" json:\"summary\""
+				}{
+					Summary:     template.Summary,
+					Description: template.Description,
+				},
+			}
+			alertRules = append(alertRules, *alertRule)
+		}
+	}
+	alerts := &model.AlertRules{
+		RuleName:   "监控规则",
+		AlertRules: alertRules,
+	}
+	Yml := &model.AlertRuleYaml{
+		Groups: []model.AlertRules{*alerts},
+	}
+	return Yml, nil
+}
