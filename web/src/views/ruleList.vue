@@ -50,6 +50,17 @@
         </template>
       </el-table-column>
       <el-table-column prop="desc" label="告警描述" :show-overflow-tooltip="true" width="280" />
+      <el-table-column fixed="right" label="操作" width="200">
+        <template #default="{ row }">
+          <el-button link type="primary" size="small" @click="handleUpdate(row)"
+            @mousedown="(e: any) => e.preventDefault()">编辑</el-button>
+          <el-popconfirm title="请确认是否要删除该配置规则？" confirm-button-text="确定" cancel-button-text="取消" icon-color="#f00"
+            confirm-button-type="danger" @confirm="handleDelete(row)">
+            <template #reference>
+              <el-button link type="danger" size="small" @mousedown="(e: any) => e.preventDefault()">删除</el-button>
+            </template></el-popconfirm>
+        </template>
+      </el-table-column>
     </pm-table>
   </div>
   <el-dialog :title="title" width="40%" v-model="showDialog" destroy-on-close :center="false">
