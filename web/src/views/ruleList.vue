@@ -5,6 +5,13 @@
   <!-- <box-draggable></box-draggable> -->
   <div class="list shadow">
     <pm-table ref="ruleTableRef" :show-check="false" :show-search="false" :get-data="getRuleList">
+      <template #search_bar>
+        <div style="display: flex; align-items: center">
+          <span>告警级别：</span>
+          <MyAutoComplete ref="autocomplete" :all_data="levels" :placeholder="'请输入告警级别'" @change="handleSearch"
+            @input="searchInputKey" />
+        </div>
+      </template>
       <el-table-column prop="id" label="ID" width="140" />
       <el-table-column prop="alertName" label="告警名称" :show-overflow-tooltip="true" width="220" />
       <el-table-column prop="alertTargets" label="告警主机" :show-overflow-tooltip="true" width="260">
@@ -46,6 +53,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import pmTable from "@/components/PmTable.vue";
+import MyAutoComplete from "@/components/MyAutoComplete.vue";
 import { getRuleList, delConfigRule, getMetrics } from "@/api/prometheus";
 import type { ConfigRule } from "@/types/rule";
 import { ElMessage } from "element-plus";
