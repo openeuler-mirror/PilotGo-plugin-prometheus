@@ -49,6 +49,26 @@ export function addConfigRule(data: object) {
     data,
   });
 }
+
+// 编辑告警告警规则
+export function updateConfigRule(data: object) {
+  return request({
+    url: "/alert/update",
+    method: "post",
+    data,
+  });
+}
+
+
+// 删除告警告警规则
+export function delConfigRule(data: { id: number }) {
+  return request({
+    url: "/alert/delete",
+    method: "get",
+    params: data,
+  });
+}
+
 // 获取所有监控指标
 export function getMetrics() {
   return request({
