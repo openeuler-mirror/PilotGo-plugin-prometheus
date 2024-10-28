@@ -116,3 +116,8 @@ func QueryRulesNotIncludedId(id string) ([]model.Rule, error) {
 	err := db.MySQL.Order("id desc").Where("id <> ?", id).Preload("AlertTargets").Find(&alerts).Error
 	return alerts, err
 }
+func GetRuleLevel() ([]string, error) {
+	var levels []string
+	err := db.MySQL.Model(&model.Rule{}).Distinct("severity").Pluck("severity", &levels).Error
+	return levels, err
+}

@@ -68,6 +68,7 @@ func RegisterAPIs(router *gin.Engine) {
 		ruleManager.GET("ruleQuery", httphandler.QueryRules)
 		ruleManager.GET("ruleDelete", httphandler.DeleteRuleList)
 		ruleManager.POST("ruleUpdate", httphandler.UpdateRule)
+		ruleManager.GET("ruleMetrics", httphandler.GetMonitorMetricsAndAlertLevel)
 	}
 }
 
