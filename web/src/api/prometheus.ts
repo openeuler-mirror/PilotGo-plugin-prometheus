@@ -32,3 +32,28 @@ export function getMacIp() {
     method: 'get',
   })
 }
+
+// 获取全部配置规则
+export function getRuleList(data: Object) {
+  return request({
+    url: "/plugin/prometheus/ruleQuery",
+    method: "get",
+    params: data,
+  });
+}
+// 获取所有监控指标
+export function getMetrics() {
+  return request({
+    url: "plugin/prometheus/ruleMetrics",
+    method: "get",
+  });
+}
+
+// 已安装监控组件的主机列表分页
+export function getExporterList(data: object) {
+  return request({
+    url: "/plugin/prometheus/monitorlist",
+    method: "get",
+    params: data,
+  });
+}
