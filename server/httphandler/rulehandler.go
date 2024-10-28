@@ -71,3 +71,13 @@ func QueryRules(c *gin.Context) {
 	}
 	response.DataPagination(c, data, total, query)
 }
+func GetMonitorMetricsAndAlertLevel(c *gin.Context) {
+	data := &struct {
+		Metrics   []string `json:"metrics"`
+		RuleLevel []string `json:"ruleLevel"`
+	}{
+		Metrics:   []string{"cpu使用率", "内存使用率", "网络流入", "网络流出", "磁盘容量", "服务器宕机", "TCP连接数"},
+		RuleLevel: service.GetRuleLevel(),
+	}
+	response.Success(c, data, "获取到监控指标和告警级别")
+}

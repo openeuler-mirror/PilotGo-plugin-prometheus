@@ -118,3 +118,31 @@ func SearchRules(search string, query *response.PaginationQ) ([]*model.Rule, int
 	}
 	return rules, int(total), nil
 }
+func GetRuleLevel() []string {
+	var levels = []string{"紧急", "严重", "中等严重", "警告"}
+	result, err := dao.GetRuleLevel()
+	if err != nil {
+		return levels
+	}
+	return removeDuplicates(levels, result)
+}
+func removeDuplicates(a, b []string) []string {
+	seen := make(map[string]bool)
+	result := []string{}
+
+	for _, s := range a {
+		if !seen[s] {
+			seen[s] = true
+			result = append(result, s)
+		}
+	}
+
+	for _, s := range b {
+		if !seen[s] {
+			seen[s] = true
+			result = append(result, s)
+		}
+	}
+
+	return result
+}
