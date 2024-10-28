@@ -41,6 +41,14 @@ export function getRuleList(data: Object) {
     params: data,
   });
 }
+// 添加告警告警规则
+export function addConfigRule(data: object) {
+  return request({
+    url: "/plugin/prometheus/ruleAdd",
+    method: "post",
+    data,
+  });
+}
 // 获取所有监控指标
 export function getMetrics() {
   return request({

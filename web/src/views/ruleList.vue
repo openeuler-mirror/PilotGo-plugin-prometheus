@@ -12,6 +12,10 @@
             @input="searchInputKey" />
         </div>
       </template>
+      <template #button_bar>
+        <el-button plain class="el-button1" type="primary" @click="handleAdd"
+          @mousedown="(e: any) => e.preventDefault()">新增</el-button>
+      </template>
       <el-table-column prop="id" label="ID" width="140" />
       <el-table-column prop="alertName" label="告警名称" :show-overflow-tooltip="true" width="220" />
       <el-table-column prop="alertTargets" label="告警主机" :show-overflow-tooltip="true" width="260">
@@ -48,12 +52,17 @@
       <el-table-column prop="desc" label="告警描述" :show-overflow-tooltip="true" width="280" />
     </pm-table>
   </div>
+  <el-dialog :title="title" width="40%" v-model="showDialog" destroy-on-close :center="false">
+    <addRule v-if="showDialog" @close="closeDialog" :row="selectedEditRow" :is-update="isUpdate"
+      @update="handleRefresh" />
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import pmTable from "@/components/PmTable.vue";
 import MyAutoComplete from "@/components/MyAutoComplete.vue";
+import addRule from "./ruleForm/addRule.vue";
 import { getRuleList, delConfigRule, getMetrics } from "@/api/prometheus";
 import type { ConfigRule } from "@/types/rule";
 import { ElMessage } from "element-plus";
