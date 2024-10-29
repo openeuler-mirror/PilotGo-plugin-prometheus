@@ -106,6 +106,9 @@ func rollBackPromAlertRuleYaml() error {
 	}
 	return nil
 }
+
+var SetDelayTicker bool
+
 func reloadPrometheus() error {
 	cmd := "systemctl stop prometheus && systemctl start prometheus"
 	_, _, stderr, err := utils.RunCommand(cmd)
@@ -113,7 +116,8 @@ func reloadPrometheus() error {
 		return err
 	}
 	if len(stderr) != 0 {
-		return errors.New("重启kylin-monitor失败:" + stderr)
+		return errors.New("重启prometheus失败:" + stderr)
 	}
+	SetDelayTicker = true
 	return nil
 }
