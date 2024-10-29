@@ -42,6 +42,7 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 	MySQL.AutoMigrate(&model.PrometheusTarget{})
 	MySQL.AutoMigrate(&model.Rule{})
 	MySQL.AutoMigrate(&model.RuleTarget{})
+	MySQL.AutoMigrate(&model.Alert{})
 
 	return nil
 }

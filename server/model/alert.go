@@ -1,5 +1,18 @@
 package model
 
+type Alert struct {
+	ID           int    `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
+	AlertName    string `gorm:"uniqueIndex:idx_alerts, length:100" json:"alertName"`
+	GroupId      string `gorm:"uniqueIndex:idx_alerts, length:100" json:"groupId"`
+	IP           string `gorm:"uniqueIndex:idx_alerts, length:100" json:"ip"`
+	AlertLevel   string `json:"level"`
+	Summary      string `json:"summary"`
+	Metric       string `json:"metric"`
+	Description  string `json:"description"`
+	AlertTime    string `json:"alertTime"`
+	AlertEndTime string `gorm:"uniqueIndex:idx_alerts, length:100" json:"alertEndTime"`
+}
+
 type AlertsResponse struct {
 	Status string `json:"status"`
 	Data   struct {
