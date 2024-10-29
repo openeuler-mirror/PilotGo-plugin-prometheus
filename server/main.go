@@ -34,6 +34,11 @@ func main() {
 		os.Exit(-1)
 	}
 
+	if err := service.PullAlert(); err != nil {
+		logger.Error("pull prometheus alerts failed, please check the code: %s", err)
+		os.Exit(-1)
+	}
+
 	server := router.InitRouter()
 
 	plugin.Client = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
