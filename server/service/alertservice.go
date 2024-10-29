@@ -13,6 +13,7 @@ import (
 	"openeuler.org/PilotGo/prometheus-plugin/config"
 	"openeuler.org/PilotGo/prometheus-plugin/dao"
 	"openeuler.org/PilotGo/prometheus-plugin/model"
+	prometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
 )
 
 func PullAlert() error {
@@ -31,6 +32,24 @@ func PullAlert() error {
 		return err
 	}
 
+	go func() {
+		ticker := time.NewTicker(30 * time.Second)
+		defer ticker.Stop()
+
+		for range ticker.C {
+			if prometheus.SetDelayTicker {
+				prometheus.SetDelayTicker = false
+				continue
+			}
+			alerts, err := pullAlert()
+			if err != nil {
+				logger.Error("Error pull alerts from kylin-monitor: %v", err.Error())
+				continue
+			}
+			processAlerts(previousAlerts, alerts)
+			previousAlerts = alerts
+		}
+	}()
 	return nil
 }
 func pullAlert() ([]model.AlertResponse, error) {
