@@ -213,6 +213,12 @@ func UpdateHandleState(id int, alert *model.Alert) error {
 	return err
 }
 
+func GetAlertLevel() ([]string, error) {
+	var levels []string
+	err := db.MySQL.Model(&model.Alert{}).Distinct("alert_level").Pluck("alert_level", &levels).Error
+	return levels, err
+}
+
 func queryFromDB(db *gorm.DB, alertName, ip, level, handleState string, alertStart, alertEnd model.AlertTime) (*gorm.DB, error) {
 	if len(alertName) > 0 {
 		db = db.Where("alert_name LIKE ? ", "%"+alertName+"%")

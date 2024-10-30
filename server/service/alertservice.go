@@ -74,6 +74,15 @@ func UpdateHandleState(id int, state string) error {
 	return nil
 }
 
+func GetAlertLevel() []string {
+	var levels = []string{}
+	result, err := dao.GetAlertLevel()
+	if err != nil {
+		return levels
+	}
+	return result
+}
+
 func PullAlert() error {
 	var previousAlerts []model.AlertResponse
 
