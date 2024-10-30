@@ -16,6 +16,11 @@ type Alert struct {
 	HandleState  string `json:"handleState"`
 }
 
+type AlertTime struct {
+	Start string `json:"start"`
+	End   string `json:"end"`
+}
+
 type AlertsResponse struct {
 	Status string `json:"status"`
 	Data   struct {
