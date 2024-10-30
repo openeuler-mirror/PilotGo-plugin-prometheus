@@ -73,11 +73,15 @@ func QueryRules(c *gin.Context) {
 }
 func GetMonitorMetricsAndAlertLevel(c *gin.Context) {
 	data := &struct {
-		Metrics   []string `json:"metrics"`
-		RuleLevel []string `json:"ruleLevel"`
+		Metrics    []string `json:"metrics"`
+		RuleLevel  []string `json:"ruleLevel"`
+		AlertState []string `json:"alertState"`
+		AlertLevel []string `json:"alertLevel"`
 	}{
-		Metrics:   []string{"cpu使用率", "内存使用率", "网络流入", "网络流出", "磁盘容量", "服务器宕机", "TCP连接数"},
-		RuleLevel: service.GetRuleLevel(),
+		Metrics:    []string{"cpu使用率", "内存使用率", "网络流入", "网络流出", "磁盘容量", "服务器宕机", "TCP连接数"},
+		RuleLevel:  service.GetRuleLevel(),
+		AlertState: []string{"活跃", "待处理", "已处理"},
+		AlertLevel: service.GetAlertLevel(),
 	}
 	response.Success(c, data, "获取到监控指标和告警级别")
 }
