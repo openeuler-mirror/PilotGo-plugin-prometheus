@@ -53,7 +53,7 @@ export function addConfigRule(data: object) {
 // 编辑告警告警规则
 export function updateConfigRule(data: object) {
   return request({
-    url: "/alert/update",
+    url: " /plugin/prometheus/ruleUpdate",
     method: "post",
     data,
   });
@@ -63,7 +63,7 @@ export function updateConfigRule(data: object) {
 // 删除告警告警规则
 export function delConfigRule(data: { id: number }) {
   return request({
-    url: "/alert/delete",
+    url: "/plugin/prometheus/ruleDelete",
     method: "get",
     params: data,
   });
@@ -83,5 +83,23 @@ export function getExporterList(data: object) {
     url: "/plugin/prometheus/monitorlist",
     method: "get",
     params: data,
+  });
+}
+
+// 获取所有历史告警
+export function getHistoryAlerts(data: Object) {
+  return request({
+    url: "/plugin/prometheus/alertQuery",
+    method: "get",
+    params: data,
+  });
+}
+
+// 变更告警状态
+export function updateAlertState(data: Object) {
+  return request({
+    url: "/plugin/prometheus/alertUpdateState",
+    method: "post",
+    data,
   });
 }
