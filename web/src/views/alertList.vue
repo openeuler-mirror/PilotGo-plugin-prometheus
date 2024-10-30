@@ -3,9 +3,15 @@
     <span class="top-title">告警管理</span>
   </div>
   <div class="list shadow">
-    <pm-table ref="ruleTableRef" :show-check="false" :show-search="false" :get-data="getHistoryAlerts"
+    <el-dialog v-model="dialog" title="高级搜索" width="760px">
+      <AdvanceSearch ref="advanceRef" @cancle="dialog = false" @search="handleAdvancedSearch" />
+    </el-dialog>
+    <pm-table ref="ruleTableRef" :show-check="true" :show-search="false" :get-data="getHistoryAlerts"
       :get-all-data="getHistoryAlerts" @handleSelect="handleSelect" @handleRowclick="handleRowclick"
       @handleAllCheckHost="handleAllCheckHost">
+      <template #search_bar>
+        <el-button @click="dialog = true">高级搜索</el-button>
+      </template>
       <template #button_bar>
         <el-button @click="handleRefresh">重置</el-button>
         &nbsp;
@@ -46,6 +52,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, nextTick, onBeforeUnmount } from "vue";
 import pmTable from "@/components/PmTable.vue";
+import AdvanceSearch from "./advanceSearch/index.vue";
 import {
   getHistoryAlerts,
   updateAlertState,
@@ -63,6 +70,14 @@ onMounted(() => {
 onBeforeUnmount(() => {
   alertStore().alert_state = "";
 });
+
+// 高级搜索
+const handleAdvancedSearch = (params: Object) => {
+  dialog.value = false;
+  checkedIds.value = [];
+
+  ruleTableRef.value!.handleSearch(params);
+};
 // 变更状态
 const changeAlertState = (value: string) => {
   if (!value) return;
