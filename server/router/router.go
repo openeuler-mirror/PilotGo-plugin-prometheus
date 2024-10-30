@@ -70,6 +70,12 @@ func RegisterAPIs(router *gin.Engine) {
 		ruleManager.POST("ruleUpdate", httphandler.UpdateRule)
 		ruleManager.GET("ruleMetrics", httphandler.GetMonitorMetricsAndAlertLevel)
 	}
+
+	//prometheus alert  manager
+	alertManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
+	{
+		alertManager.GET("alertQuery", httphandler.QuerySearchAlerts)
+	}
 }
 
 func StaticRouter(router *gin.Engine) {
