@@ -26,8 +26,6 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="departmentName" label="部门" width="180" />
-      <el-table-column prop="userName" label="用户" width="160" />
       <el-table-column prop="severity" label="告警级别" width="220" />
       <el-table-column prop="metrics" label="告警指标" width="260" />
       <el-table-column prop="threshold" label="告警阈值">
