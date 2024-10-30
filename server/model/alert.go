@@ -11,6 +11,9 @@ type Alert struct {
 	Description  string `json:"description"`
 	AlertTime    string `json:"alertTime"`
 	AlertEndTime string `gorm:"uniqueIndex:idx_alerts, length:100" json:"alertEndTime"`
+	ConfirmTime  string `json:"confirmTime"`
+	CompleteTime string `json:"completeTime"`
+	HandleState  string `json:"handleState"`
 }
 
 type AlertsResponse struct {

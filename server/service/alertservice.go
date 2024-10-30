@@ -19,7 +19,7 @@ import (
 func PullAlert() error {
 	var previousAlerts []model.AlertResponse
 
-	daoAlert, err := dao.QueryAlerts()
+	daoAlert, err := dao.QueryCompleteAlerts()
 	if err != nil {
 		return err
 	}
