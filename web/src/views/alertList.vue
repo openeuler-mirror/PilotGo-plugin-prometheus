@@ -31,7 +31,6 @@
       <el-table-column type="selection" :reserve-selection="true" width="50" />
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="ip" label="IP" width="180" />
-      <el-table-column prop="departmentName" label="部门" width="180" />
       <el-table-column prop="alertName" label="告警名称" width="220" />
       <el-table-column prop="level" label="告警级别" width="180" />
       <el-table-column prop="alertTime" label="告警开始时间" width="200" />

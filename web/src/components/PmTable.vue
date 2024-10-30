@@ -4,26 +4,13 @@
     <el-row class="pm_table_header">
       <div class="pm_table_header_operation">
         <!-- 全选 -->
-        <el-dropdown
-          v-if="props.showCheck"
-          split-button
-          type="primary"
-          class="operation-select-checkbox"
-          @command="handleCheckChange"
-          @click.stop="handleCheckClick($event, !checkedState)"
-        >
-          <el-checkbox
-            v-model="checkedState"
-            @change.native="handleCheckState"
-          />
-          <span class="operation-select-spanText" v-show="checkedState"
-            >选择个数（{{ checkedCount }}个）</span
-          >
+        <el-dropdown v-if="props.showCheck" split-button class="operation-select-checkbox" @command="handleCheckChange"
+          @click.stop="handleCheckClick($event, !checkedState)">
+          <el-checkbox v-model="checkedState" @change.native="handleCheckState" />
+          <span class="operation-select-spanText" v-show="checkedState">选择个数（{{ checkedCount }}个）</span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="不选择"
-                >不选择（0个）</el-dropdown-item
-              >
+              <el-dropdown-item command="不选择">不选择（0个）</el-dropdown-item>
               <el-dropdown-item command="选择当前页">{{
                 "选择当前页（" + currentNum + "个）"
               }}</el-dropdown-item>
@@ -35,22 +22,11 @@
         </el-dropdown>
         <!-- 模糊搜索 -->
         <div class="operation-select-input">
-          <el-autocomplete
-            v-if="props.showSearch"
-            v-model="keyWord"
-            :fetch-suggestions="querySearch"
-            popper-class="my-autocomplete"
-            placeholder="请输入内容"
-            clearable
-            @clear="handleIpSearch"
-            @select="handleIpSearch"
-            @keyup.enter="handleInputIP"
-          >
+          <el-autocomplete v-if="props.showSearch" v-model="keyWord" :fetch-suggestions="querySearch"
+            popper-class="my-autocomplete" placeholder="请输入内容" clearable @clear="handleIpSearch" @select="handleIpSearch"
+            @keyup.enter="handleInputIP">
             <template #prefix>
-              <el-icon
-                class="el-input__icon"
-                @click="handleIpSearch({ ip: keyWord })"
-              >
+              <el-icon class="el-input__icon" @click="handleIpSearch({ ip: keyWord })">
                 <Search />
               </el-icon>
             </template>
@@ -72,15 +48,8 @@
     </el-row>
     <!-- 列表 -->
     <div class="pm_table_content" ref="tableBox">
-      <el-table
-        ref="multipleTableRef"
-        :data="tableData"
-        :row-key="(row: any) => row.id"
-        class="table"
-        @select="handleRowSelectionChange"
-        @selection-change="handleSelectinChange"
-        v-loading="loading"
-      >
+      <el-table ref="multipleTableRef" :data="tableData" :row-key="(row: any) => row.id" class="table"
+        @select="handleRowSelectionChange" @selection-change="handleSelectinChange" v-loading="loading">
         <slot></slot>
         <template #append>
           <slot name="append"></slot>
@@ -93,18 +62,10 @@
     <!-- 分页 -->
     <div class="pm_table_page">
       <el-config-provider :locale="zhCn">
-        <el-pagination
-          v-model:current-page="page.currentPage"
-          v-model:page-size="page.pageSize"
-          popper-class="pagePopper"
-          :page-sizes="[20, 25, 50, 75, 100]"
-          :small="page.small"
-          :background="page.background"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="page.total"
-          @size-change="getTableData(true)"
-          @current-change="getTableData(true)"
-        />
+        <el-pagination v-model:current-page="page.currentPage" v-model:page-size="page.pageSize" popper-class="pagePopper"
+          :page-sizes="[20, 25, 50, 75, 100]" :small="page.small" :background="page.background"
+          layout="total, sizes, prev, pager, next, jumper" :total="page.total" @size-change="getTableData(true)"
+          @current-change="getTableData(true)" />
       </el-config-provider>
     </div>
   </div>
