@@ -16,6 +16,46 @@ import (
 	prometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
 )
 
+const (
+	/*
+	*告警各状态：活跃、待处理、已处理
+	 */
+	Firing      = "活跃"
+	WaitProcess = "待处理"
+	Completed   = "已处理"
+)
+
+func SearchAlerts(alertName, ip, level, handleState, alertState string, alertStart, alertEnd model.AlertTime) ([]model.Alert, int, error) {
+	switch alertState {
+	case Firing:
+		alerts, total, err := dao.SearchAlertsFiring(alertName, ip, level, handleState, alertStart, alertEnd)
+		if err != nil {
+			return []model.Alert{}, 0, err
+		}
+		return alerts, int(total), nil
+	case WaitProcess:
+		alerts, total, err := dao.SearchAlertsWaitProcess(alertName, ip, level, handleState, alertStart, alertEnd)
+		if err != nil {
+			return []model.Alert{}, 0, err
+		}
+		return alerts, int(total), nil
+	case Completed:
+		alerts, total, err := dao.SearchAlertsCompleted(alertName, ip, level, handleState, alertStart, alertEnd)
+		if err != nil {
+			return []model.Alert{}, 0, err
+		}
+
+		return alerts, int(total), nil
+	default:
+		alerts, total, err := dao.SearchAlerts(alertName, ip, level, handleState, alertStart, alertEnd)
+		if err != nil {
+			return []model.Alert{}, 0, err
+		}
+
+		return alerts, int(total), nil
+	}
+}
+
 func PullAlert() error {
 	var previousAlerts []model.AlertResponse
 
