@@ -207,6 +207,12 @@ func SearchAlerts(alertName, ip, level, handleState string, alertStart, alertEnd
 	return alert, total, nil
 }
 
+func UpdateHandleState(id int, alert *model.Alert) error {
+	var a model.Alert
+	err := db.MySQL.Model(&a).Where("id = ?", id).Updates(alert).Error
+	return err
+}
+
 func queryFromDB(db *gorm.DB, alertName, ip, level, handleState string, alertStart, alertEnd model.AlertTime) (*gorm.DB, error) {
 	if len(alertName) > 0 {
 		db = db.Where("alert_name LIKE ? ", "%"+alertName+"%")
