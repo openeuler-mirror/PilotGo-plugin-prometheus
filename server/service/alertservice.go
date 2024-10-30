@@ -56,6 +56,24 @@ func SearchAlerts(alertName, ip, level, handleState, alertState string, alertSta
 	}
 }
 
+func UpdateHandleState(id int, state string) error {
+	if state == "已确认" {
+		err := dao.UpdateHandleState(id, &model.Alert{
+			ConfirmTime: time.Now().Format("2006-01-02 15:04:05"),
+			HandleState: state,
+		})
+		return err
+	}
+	if state == "已完成" {
+		err := dao.UpdateHandleState(id, &model.Alert{
+			CompleteTime: time.Now().Format("2006-01-02 15:04:05"),
+			HandleState:  state,
+		})
+		return err
+	}
+	return nil
+}
+
 func PullAlert() error {
 	var previousAlerts []model.AlertResponse
 

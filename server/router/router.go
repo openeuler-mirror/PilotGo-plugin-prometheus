@@ -75,6 +75,7 @@ func RegisterAPIs(router *gin.Engine) {
 	alertManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
 	{
 		alertManager.GET("alertQuery", httphandler.QuerySearchAlerts)
+		alertManager.POST("alertUpdateState", httphandler.UpdateHandleState)
 	}
 }
 

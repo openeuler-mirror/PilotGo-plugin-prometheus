@@ -3,6 +3,7 @@ package httphandler
 import (
 	"encoding/json"
 
+	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/prometheus-plugin/dao"
@@ -92,4 +93,22 @@ func QuerySearchAlerts(c *gin.Context) {
 			response.DataPagination(c, lists, total, query)
 		}
 	}
+}
+func UpdateHandleState(c *gin.Context) {
+	ids := &struct {
+		Ids         []int  `json:"ids"`
+		HandleState string `json:"state"`
+	}{}
+	if err := c.Bind(&ids); err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+
+	for _, id := range ids.Ids {
+		if err := service.UpdateHandleState(id, ids.HandleState); err != nil {
+			logger.Error("id=%v 更新处理状态失败：%v", id, err.Error())
+		}
+	}
+
+	response.Success(c, nil, "已更新处理状态")
 }
