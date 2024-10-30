@@ -6,6 +6,22 @@
     <pm-table ref="ruleTableRef" :show-check="false" :show-search="false" :get-data="getHistoryAlerts"
       :get-all-data="getHistoryAlerts" @handleSelect="handleSelect" @handleRowclick="handleRowclick"
       @handleAllCheckHost="handleAllCheckHost">
+      <template #button_bar>
+        <el-button @click="handleRefresh">重置</el-button>
+        &nbsp;
+        <el-dropdown @command="changeAlertState" trigger="click">
+          <el-button class="el-dropdown-link" type="primary" :disabled="checkedIds.length == 0"
+            @mousedown="(e: any) => e.preventDefault()">
+            状态变更<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="已确认" :disabled="unable_confirm.length > 0">已确认</el-dropdown-item>
+              <el-dropdown-item command="已完成" :disabled="unable_finish.length > 0">已完成</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </template>
       <el-table-column type="selection" :reserve-selection="true" width="50" />
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="ip" label="IP" width="180" />
@@ -32,6 +48,7 @@ import { ref, onMounted, watch, nextTick, onBeforeUnmount } from "vue";
 import pmTable from "@/components/PmTable.vue";
 import {
   getHistoryAlerts,
+  updateAlertState,
   getMetrics,
 } from "@/api/prometheus";
 import { ElMessage } from "element-plus";
@@ -46,6 +63,23 @@ onMounted(() => {
 onBeforeUnmount(() => {
   alertStore().alert_state = "";
 });
+// 变更状态
+const changeAlertState = (value: string) => {
+  if (!value) return;
+  let params = {
+    ids: checkedIds.value,
+    state: value,
+  };
+  updateAlertState(params).then((res) => {
+    if (res.data.code === 200) {
+      ElMessage.success(res.data.msg);
+      handleRefresh();
+    } else {
+      ElMessage.error(res.data.msg);
+    }
+  });
+};
+
 // 搜索配置规则
 interface SearchItem {
   level: string;
@@ -75,6 +109,14 @@ const getAllMetrics = () => {
 
 // 刷新列表数据
 const advanceRef: any = ref(null);
+const handleRefresh = () => {
+  checkedIds.value = [];
+  alertStore().$reset();
+  ruleTableRef.value!.handleRefresh();
+  if (advanceRef.value) {
+    advanceRef.value.onReset();
+  }
+};
 
 // 处理选中
 const checkedIds = ref([] as number[]);
