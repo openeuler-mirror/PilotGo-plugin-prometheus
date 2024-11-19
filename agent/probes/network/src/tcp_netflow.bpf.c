@@ -60,3 +60,35 @@ int BPF_KPROBE(tcp_sendmsg, struct sock *sk, size_t size) {
     (void)bpf_get_current_comm(metrics->comm, sizeof(metrics->comm));
     return 0;
 }
+
+SEC("kretprobe/tcp_sendmsg")
+int BPF_KRETPROBE(tcp_sendmsg_exit, int ret) {
+    // ttcode
+    u8 comm[16], _comm[TARGET_NUM][16] = TARGET_PROC;
+    (void)bpf_get_current_comm(&comm, sizeof(comm));
+    if (strcmp(comm, _comm[0]) == 1 && strcmp(comm, _comm[1]) == 1 && strcmp(comm, _comm[2]) == 1) {
+        return 0;
+    }
+
+    u32 pid = bpf_get_current_pid_tgid() >> INT_LEN;
+    if (ret < 0) {
+        bpf_printk("(tcp_sendmsg_exit) pid: %u errorcode: %d", pid, ret);
+        return 0;
+    }
+
+    struct tcp_metrics *metrics = bpf_map_lookup_elem(&tcp_link_map, &pid);
+    if (!metrics) {
+        // ttcode
+        bpf_printk("(tcp_sendmsg_exit) %u %s not found tcp_metrics", pid, comm);
+        return 0;
+    }
+
+    metrics->tx = (u64)ret;
+    // __sync_fetch_and_add(&(metrics->tx), (u64)(ret));
+
+    bpf_ringbuf_output(&tcp_output, metrics, sizeof(struct tcp_metrics), 0);
+
+    // ttcode
+    bpf_printk("(tcp_sendmsg_exit) pid: %u", pid);
+    return 0;
+}
