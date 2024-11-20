@@ -152,3 +152,23 @@ int BPF_KPROBE(tcp_cleanup_rbuf, struct sock *sk, int copied) {
     bpf_ringbuf_output(&tcp_output, metrics, sizeof(struct tcp_metrics), 0);
     return 0;
 }
+
+// 确认客户端socket
+SEC("kprobe/tcp_v4_connect")
+int BPF_KPROBE(tcp_v4_connect, struct sock *sk, struct sockaddr *uaddr) {
+    // ttcode
+    u8 comm[16], _comm[TARGET_NUM][16] = TARGET_PROC;
+    (void)bpf_get_current_comm(&comm, sizeof(comm));
+    if (strcmp(comm, _comm[0]) == 1 && strcmp(comm, _comm[1]) == 1 && strcmp(comm, _comm[2]) == 1) {
+        return 0;
+    }
+
+    u32 pid = bpf_get_current_pid_tgid() >> INT_LEN;
+    // ttcode
+    bpf_printk("(tcp_v4_connect) pid: %u", pid);
+
+    struct tcp_metrics tcpmetrics = {0};
+    tcpmetrics.role = LINK_ROLE_CLIENT;
+    bpf_map_update_elem(&tcp_link_map, &pid, &tcpmetrics, BPF_ANY);
+    return 0;
+}
