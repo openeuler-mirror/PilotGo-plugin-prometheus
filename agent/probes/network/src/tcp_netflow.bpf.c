@@ -192,3 +192,29 @@ int BPF_KRETPROBE(inet_csk_accept_exit, struct sock *ret) {
     bpf_map_update_elem(&tcp_link_map, &pid, &tcpmetrics, BPF_ANY);
     return 0;
 }
+
+SEC("kprobe/tcp_v4_destroy_sock")
+int BPF_KPROBE(tcp_v4_destroy_sock, struct sock *sk) {
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
+    bpf_map_delete_elem(&tcp_link_map, &pid);
+    bpf_map_delete_elem(&tcp_link_map, &pid);
+    return 0;
+}
+
+SEC("raw_tracepoint/tcp_destroy_sock")
+int bpf_raw_trace_tcp_destroy_sock(struct bpf_raw_tracepoint_args *ctx) {
+    struct sock *sk = (struct sock *)ctx->args[0];
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
+    bpf_map_delete_elem(&tcp_link_map, &pid);
+    bpf_map_delete_elem(&tcp_link_map, &pid);
+    return 0;
+}
+
+SEC("tracepoint/tcp/tcp_destroy_sock")
+int bpf_trace_tcp_destroy_sock_func(struct trace_event_raw_tcp_event_sk *ctx) {
+    struct sock *sk = (struct sock *)ctx->skaddr;
+    u32 pid = bpf_get_current_pid_tgid() >> 32;
+    bpf_map_delete_elem(&tcp_link_map, &pid);
+    bpf_map_delete_elem(&tcp_link_map, &pid);
+    return 0;
+}
