@@ -218,3 +218,40 @@ int bpf_trace_tcp_destroy_sock_func(struct trace_event_raw_tcp_event_sk *ctx) {
     bpf_map_delete_elem(&tcp_link_map, &pid);
     return 0;
 }
+
+SEC("kprobe/tcp_set_state")
+int BPF_KPROBE(tcp_set_state, struct sock *sk, u16 new_state) {
+    return 0;
+    // ttcode
+    u8 comm[16], _comm[3][16] = TARGET_PROC;
+    (void)bpf_get_current_comm(&comm, sizeof(comm));
+    if (strcmp(comm, _comm[0]) == 1 && strcmp(comm, _comm[1]) == 1 && strcmp(comm, _comm[2]) == 1) {
+        return 0;
+    }
+
+    struct tcp_metrics tcpmetrics = {0};
+    struct tcp_sock *tcp_sock = (struct tcp_sock *)sk;
+    u16 old_state = _(sk->sk_state);
+    u32 pid = bpf_get_current_pid_tgid() >> INT_LEN;
+    // ttcode
+    bpf_printk("(tcp_set_state) pid: %u", pid);
+
+    if (old_state == TCP_SYN_SENT && new_state == TCP_ESTABLISHED) {
+        tcpmetrics.role = LINK_ROLE_CLIENT;
+        // bpf_map_update_elem(&tcp_link_send_map, &pid, &tcpmetrics, BPF_ANY);
+        // bpf_map_update_elem(&tcp_link_recv_map, &pid, &tcpmetrics, BPF_ANY);
+        bpf_map_update_elem(&tcp_link_map, &pid, &tcpmetrics, BPF_ANY);
+    }
+
+    if (old_state == TCP_SYN_RECV && new_state == TCP_ESTABLISHED) {
+        tcpmetrics.role = LINK_ROLE_SERVER;
+        // bpf_map_update_elem(&tcp_link_send_map, &pid, &tcpmetrics, BPF_ANY);
+        // bpf_map_update_elem(&tcp_link_recv_map, &pid, &tcpmetrics, BPF_ANY);
+        bpf_map_update_elem(&tcp_link_map, &pid, &tcpmetrics, BPF_ANY);
+    }
+
+    // ttcode
+    bpf_printk("(tcp_set_state): %u, %s, %s->%s", pid, tcpmetrics.role == 1 ? "client" : "server", socketStateStr(old_state), socketStateStr(new_state));
+
+    return 0;
+}
