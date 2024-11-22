@@ -135,4 +135,64 @@ struct tcp_metrics {
 };
 const struct tcp_metrics *unused __attribute__((unused));
 
+static __always_inline const char *socketStateStr(u16 state) {
+    const char *state_str = NULL;
+    switch (state) {
+        case TCP_ESTABLISHED:
+            state_str = "ESTABLISHED";
+            break;
+        case TCP_SYN_SENT:
+            state_str = "SYN_SENT";
+            break;
+        case TCP_SYN_RECV:
+            state_str = "SYN_RECV";
+            break;
+        case TCP_FIN_WAIT1:
+            state_str = "FIN_WAIT1";
+            break;
+        case TCP_FIN_WAIT2:
+            state_str = "FIN_WAIT2";
+            break;
+        case TCP_TIME_WAIT:
+            state_str = "TIME_WAIT";
+            break;
+        case TCP_CLOSE:
+            state_str = "CLOSE";
+            break;
+        case TCP_CLOSE_WAIT:
+            state_str = "CLOSE_WAIT";
+            break;
+        case TCP_LAST_ACK:
+            state_str = "LAST_ACK";
+            break;
+        case TCP_LISTEN:
+            state_str = "LISTEN";
+            break;
+        case TCP_CLOSING:
+            state_str = "CLOSING";
+            break;
+        case TCP_NEW_SYN_RECV:
+            state_str = "new_SYN_RECV";
+            break;
+        case TCP_MAX_STATES:
+            state_str = "MAX_STATES";
+            break;   
+        default:
+            state_str = NULL;
+            break;
+    }
+    return state_str;
+}
+
+static __always_inline int strcmp(unsigned char a[16], unsigned char b[16]) {
+    for(int i = 0; i < 16; i++) {
+        if(a[i] != b[i]) {
+            return 1;
+        }
+        if(a[i++] == '\0' && b[i] == '\0') {
+            break;
+        }
+    }
+    return 0;
+}
 #endif /* __TCP_NETFLOW_H */
