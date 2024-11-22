@@ -10,6 +10,60 @@
 #define TARGET_NUM 3
 #define TARGET_PROC {"toagent", "tcpclient", "tcpserver"}
 
+#define _(P)                                   \
+            ({                                         \
+                typeof(P) val;                         \
+                bpf_core_read((unsigned char *)&val, sizeof(val), (const void *)&P); \
+                val;                                   \
+            })
+
+#define TCP_SOCKET_STATE(state)         \
+        ({                                  \
+            const char *state_str = NULL;\
+            switch (state) {\
+                case TCP_ESTABLISHED:\
+                    state_str = "ESTABLISHED";\
+                    break;\
+                case TCP_SYN_SENT:\
+                    state_str = "SYN_SENT";\
+                    break;\
+                case TCP_SYN_RECV:\
+                    state_str = "SYN_RECV";\
+                    break;\
+                case TCP_FIN_WAIT1:\
+                    state_str = "FIN_WAIT1";\
+                    break;\
+                case TCP_FIN_WAIT2:\
+                    state_str = "FIN_WAIT2";\
+                    break;\
+                case TCP_TIME_WAIT:\
+                    state_str = "TIME_WAIT";\
+                    break;\
+                case TCP_CLOSE:\
+                    state_str = "CLOSE";\
+                    break;\
+                case TCP_CLOSE_WAIT:\
+                    state_str = "CLOSE_WAIT";\
+                    break;\
+                case TCP_LAST_ACK:\
+                    state_str = "LAST_ACK";\
+                    break;\
+                case TCP_LISTEN:\
+                    state_str = "LISTEN";\
+                    break;\
+                case TCP_CLOSING:\
+                    state_str = "CLOSING";\
+                    break;\
+                case TCP_NEW_SYN_RECV:\
+                    state_str = "new_SYN_RECV";\
+                    break;\
+                case TCP_MAX_STATES:\
+                    state_str = "MAX_STATES";\
+                    break;   \
+            }\
+            state_str;\
+        })                                  
+
 #define LINK_ROLE_SERVER 0
 #define LINK_ROLE_CLIENT 1
 
