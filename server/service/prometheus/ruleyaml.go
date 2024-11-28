@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"gopkg.in/yaml.v2"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
-	"openeuler.org/PilotGo/prometheus-plugin/utils"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/utils"
 )
 
 const ruleYaml = "/etc/prometheus/rules.yaml"

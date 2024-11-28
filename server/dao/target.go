@@ -3,8 +3,8 @@ package dao
 import (
 	"errors"
 
-	"openeuler.org/PilotGo/prometheus-plugin/db"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/db"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
 )
 
 func GetPrometheusTarget() ([]string, error) {

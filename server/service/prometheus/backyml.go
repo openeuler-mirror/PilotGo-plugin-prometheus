@@ -1,7 +1,7 @@
 package initprometheus
 
 import (
-	"openeuler.org/PilotGo/prometheus-plugin/utils"
+	"openeuler.org/PilotGo/prometheus-plugin/server/utils"
 )
 
 const savedYml = "./.prometheus-yml.data"

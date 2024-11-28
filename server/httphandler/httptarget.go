@@ -3,8 +3,8 @@ package httphandler
 import (
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/dao"
-	prometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
+	"openeuler.org/PilotGo/prometheus-plugin/server/dao"
+	prometheus "openeuler.org/PilotGo/prometheus-plugin/server/service/prometheus"
 )
 
 func DBTargets(c *gin.Context) {

@@ -7,8 +7,8 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"openeuler.org/PilotGo/prometheus-plugin/config"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/config"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
 )
 
 var MySQL *gorm.DB

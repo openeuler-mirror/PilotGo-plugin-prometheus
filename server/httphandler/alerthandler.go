@@ -6,10 +6,10 @@ import (
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/dao"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
-	"openeuler.org/PilotGo/prometheus-plugin/service"
-	"openeuler.org/PilotGo/prometheus-plugin/utils"
+	"openeuler.org/PilotGo/prometheus-plugin/server/dao"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/service"
+	"openeuler.org/PilotGo/prometheus-plugin/server/utils"
 )
 
 func QuerySearchAlerts(c *gin.Context) {

@@ -2,8 +2,8 @@ package service
 
 import (
 	"gitee.com/openeuler/PilotGo/sdk/common"
-	"openeuler.org/PilotGo/prometheus-plugin/dao"
-	"openeuler.org/PilotGo/prometheus-plugin/plugin"
+	"openeuler.org/PilotGo/prometheus-plugin/server/dao"
+	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
 )
 
 func GetTags() {

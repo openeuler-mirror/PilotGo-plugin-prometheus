@@ -7,8 +7,8 @@ import (
 	"gitee.com/openeuler/PilotGo-plugins/event/sdk"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/httphandler"
-	"openeuler.org/PilotGo/prometheus-plugin/plugin"
+	"openeuler.org/PilotGo/prometheus-plugin/server/httphandler"
+	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
 )
 
 func InitRouter() *gin.Engine {

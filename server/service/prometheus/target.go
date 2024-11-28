@@ -1,8 +1,8 @@
 package initprometheus
 
 import (
-	"openeuler.org/PilotGo/prometheus-plugin/dao"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/dao"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
 )
 
 func PrometheusTargetsUpdate() ([]model.PrometheusObject, error) {

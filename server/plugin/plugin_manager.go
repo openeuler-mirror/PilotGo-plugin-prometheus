@@ -2,7 +2,7 @@ package plugin
 
 import (
 	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
-	"openeuler.org/PilotGo/prometheus-plugin/config"
+	"openeuler.org/PilotGo/prometheus-plugin/server/config"
 )
 
 var Client *client.Client

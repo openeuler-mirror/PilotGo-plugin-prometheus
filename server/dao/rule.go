@@ -5,8 +5,8 @@ import (
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
-	"openeuler.org/PilotGo/prometheus-plugin/db"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/db"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
 )
 
 func SaveRuleList(a *model.Rule) error {
