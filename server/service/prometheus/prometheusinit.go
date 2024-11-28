@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
-	"openeuler.org/PilotGo/prometheus-plugin/utils"
+	"openeuler.org/PilotGo/prometheus-plugin/server/utils"
 )
 
 const (

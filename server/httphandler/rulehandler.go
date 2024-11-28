@@ -3,8 +3,8 @@ package httphandler
 import (
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
-	"openeuler.org/PilotGo/prometheus-plugin/service"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/service"
 )
 
 func AddRuleHandler(c *gin.Context) {

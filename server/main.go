@@ -6,12 +6,12 @@ import (
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
-	"openeuler.org/PilotGo/prometheus-plugin/config"
-	"openeuler.org/PilotGo/prometheus-plugin/db"
-	"openeuler.org/PilotGo/prometheus-plugin/plugin"
-	"openeuler.org/PilotGo/prometheus-plugin/router"
-	"openeuler.org/PilotGo/prometheus-plugin/service"
-	prometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
+	"openeuler.org/PilotGo/prometheus-plugin/server/config"
+	"openeuler.org/PilotGo/prometheus-plugin/server/db"
+	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
+	"openeuler.org/PilotGo/prometheus-plugin/server/router"
+	"openeuler.org/PilotGo/prometheus-plugin/server/service"
+	prometheus "openeuler.org/PilotGo/prometheus-plugin/server/service/prometheus"
 )
 
 func main() {

@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
-	"openeuler.org/PilotGo/prometheus-plugin/config"
-	"openeuler.org/PilotGo/prometheus-plugin/dao"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
-	prometheus "openeuler.org/PilotGo/prometheus-plugin/service/prometheus"
+	"openeuler.org/PilotGo/prometheus-plugin/server/config"
+	"openeuler.org/PilotGo/prometheus-plugin/server/dao"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
+	prometheus "openeuler.org/PilotGo/prometheus-plugin/server/service/prometheus"
 )
 
 const (

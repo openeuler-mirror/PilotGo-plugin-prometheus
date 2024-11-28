@@ -3,9 +3,9 @@ package dao
 import (
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gorm.io/gorm"
-	"openeuler.org/PilotGo/prometheus-plugin/db"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
-	"openeuler.org/PilotGo/prometheus-plugin/utils"
+	"openeuler.org/PilotGo/prometheus-plugin/server/db"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/utils"
 )
 
 func SaveAlertList(a *model.Alert) error {

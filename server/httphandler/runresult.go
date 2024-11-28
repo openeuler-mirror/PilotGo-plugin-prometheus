@@ -5,8 +5,8 @@ import (
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
-	"openeuler.org/PilotGo/prometheus-plugin/plugin"
-	"openeuler.org/PilotGo/prometheus-plugin/service"
+	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
+	"openeuler.org/PilotGo/prometheus-plugin/server/service"
 )
 
 // 运行远程命令安装、卸载exporter

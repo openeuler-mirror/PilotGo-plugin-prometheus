@@ -6,8 +6,8 @@ import (
 
 	"gitee.com/openeuler/PilotGo/sdk/common"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
-	"openeuler.org/PilotGo/prometheus-plugin/dao"
-	"openeuler.org/PilotGo/prometheus-plugin/model"
+	"openeuler.org/PilotGo/prometheus-plugin/server/dao"
+	"openeuler.org/PilotGo/prometheus-plugin/server/model"
 )
 
 var ResultOptMsg = []string{"安装成功", "卸载成功"}
