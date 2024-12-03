@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) KylinSoft  Co., Ltd. 2024.All rights reserved.
+ * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2. 
+ * See LICENSE file for more details.
+ * Author: zhanghan2021 <zhanghan@kylinos.cn>
+ * Date: Wed Oct 30 11:36:36 2024 +0800
+ */
 package httphandler
 
 import (

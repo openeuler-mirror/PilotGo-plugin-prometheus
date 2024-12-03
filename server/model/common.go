@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) KylinSoft  Co., Ltd. 2024.All rights reserved.
+ * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2. 
+ * See LICENSE file for more details.
+ * Author: zhanghan2021 <zhanghan@kylinos.cn>
+ * Date: Thu Oct 19 11:33:37 2023 +0800
+ */
 package model
 
 type PrometheusTarget struct {
