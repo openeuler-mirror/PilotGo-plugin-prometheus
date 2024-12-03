@@ -1,3 +1,10 @@
+<!--
+ * Copyright (c) KylinSoft  Co., Ltd. 2024.All rights reserved.
+ * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2. 
+ * See LICENSE file for more details.
+ * Author: wanghaohao <wanghaohao@kylinos.cn>
+ * Date: Wed Oct 30 14:47:16 2024 +0800
+-->
 <template>
   <div style="width: 700px; margin: 0 auto;">
     <el-form ref="searchRef" :model="form" label-width="auto" style="max-width: 600px">
