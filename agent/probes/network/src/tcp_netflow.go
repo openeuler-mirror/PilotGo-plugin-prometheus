@@ -190,23 +190,5 @@ func Netflow(stop chan os.Signal) {
 		}
 
 		AddProcTcp(bpftcpmetrics)
-
-		// ttcode
-		// clients := []string{}
-		// tcpmetrics := AddProcTcp(bpftcpmetrics)
-		// tcpmetrics.Clients_addr_map.Range(func(key, value any) bool {
-		// 	addr := key.(string)
-		// 	clients = append(clients, addr)
-		// 	return true
-		// })
-		// fmt.Printf("pid: %d client(%v) server(%s:%d) family: %d socket role: %s comm: %v rx: %v tx:%v\n",
-		// 	tcpmetrics.Pid,
-		// 	clients,
-		// 	tcpmetrics.S_ip, tcpmetrics.S_port,
-		// 	tcpmetrics.Family,
-		// 	tcpmetrics.Role,
-		// 	tcpmetrics.Comm,
-		// 	tcpmetrics.Rx, tcpmetrics.Tx,
-		// )
 	}
 }
