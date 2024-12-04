@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) KylinSoft  Co., Ltd. 2024.All rights reserved.
+ * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2. 
+ * See LICENSE file for more details.
+ * Author: Wangjunqi123 <wangjunqi@kylinos.cn>
+ * Date: Thu Nov 14 13:40:55 2024 +0800
+ */
 #ifndef __TCP_NETFLOW_H
 #define __TCP_NETFLOW_H
 

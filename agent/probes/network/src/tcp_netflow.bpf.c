@@ -35,7 +35,6 @@ int BPF_KPROBE(tcp_sendmsg, struct sock *sk, size_t size) {
     bpf_printk("(tcp_sendmsg) pid: %u", pid);
 
     struct tcp_metrics *metrics = bpf_map_lookup_elem(&tcp_link_map, &pid);
-    // struct tcp_metrics *metrics = bpf_map_lookup_elem(&tcp_link_map, &sk);
     if (!metrics) {
         return 0;
     }
@@ -91,7 +90,6 @@ int BPF_KRETPROBE(tcp_sendmsg_exit, int ret) {
     }
 
     metrics->tx = (u64)ret;
-    // __sync_fetch_and_add(&(metrics->tx), (u64)(ret));
 
     bpf_ringbuf_output(&tcp_output, metrics, sizeof(struct tcp_metrics), 0);
 
@@ -119,7 +117,6 @@ int BPF_KPROBE(tcp_cleanup_rbuf, struct sock *sk, int copied) {
     bpf_printk("(tcp_cleanup_rbuf) pid: %u", pid);
 
     struct tcp_metrics *metrics = bpf_map_lookup_elem(&tcp_link_map, &pid);
-    // struct tcp_metrics *metrics = bpf_map_lookup_elem(&tcp_link_map, &sk);
     if (!metrics) {
         return 0;
     }
@@ -154,7 +151,6 @@ int BPF_KPROBE(tcp_cleanup_rbuf, struct sock *sk, int copied) {
     (void)bpf_get_current_comm(metrics->comm, sizeof(metrics->comm));
 
     metrics->rx = (u64)copied;
-    // __sync_fetch_and_add(&(metrics->rx), (u64)(copied));
 
     bpf_ringbuf_output(&tcp_output, metrics, sizeof(struct tcp_metrics), 0);
     return 0;
@@ -245,15 +241,11 @@ int BPF_KPROBE(tcp_set_state, struct sock *sk, u16 new_state) {
 
     if (old_state == TCP_SYN_SENT && new_state == TCP_ESTABLISHED) {
         tcpmetrics.role = LINK_ROLE_CLIENT;
-        // bpf_map_update_elem(&tcp_link_send_map, &pid, &tcpmetrics, BPF_ANY);
-        // bpf_map_update_elem(&tcp_link_recv_map, &pid, &tcpmetrics, BPF_ANY);
         bpf_map_update_elem(&tcp_link_map, &pid, &tcpmetrics, BPF_ANY);
     }
 
     if (old_state == TCP_SYN_RECV && new_state == TCP_ESTABLISHED) {
         tcpmetrics.role = LINK_ROLE_SERVER;
-        // bpf_map_update_elem(&tcp_link_send_map, &pid, &tcpmetrics, BPF_ANY);
-        // bpf_map_update_elem(&tcp_link_recv_map, &pid, &tcpmetrics, BPF_ANY);
         bpf_map_update_elem(&tcp_link_map, &pid, &tcpmetrics, BPF_ANY);
     }
 
