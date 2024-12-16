@@ -3,6 +3,5 @@ config.yml
 .prometheus-yml.data
 
 # bin files
-server
 *.exe
 *.o
