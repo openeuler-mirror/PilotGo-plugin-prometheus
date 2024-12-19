@@ -180,7 +180,7 @@ const handleRowclick = (rows: Alert[]) => {
 // 监听概览页面跳转时携带的参数state
 watch(
   () => alertStore().alert_state,
-  (new_state, old_state) => {
+  (new_state) => {
     if (new_state) {
       nextTick(() => {
         setTimeout(() => {

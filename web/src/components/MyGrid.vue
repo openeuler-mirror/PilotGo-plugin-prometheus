@@ -16,7 +16,7 @@
           <span class="title">{{ item.title }}</span>
         </div>
         <div class="noDrag">
-          <my-echarts v-if="item.isChart" :ref="(el: any) => { if (el) chart[indexVar] = el }" :options="item.option"
+          <my-echarts v-if="item.isChart" :ref="(el: any) => { if (el) chart[indexVar] = el }"
             style="padding-top: 30px;">
           </my-echarts>
           <span v-else class="noDrag-text">{{ item.value }}</span>
@@ -51,12 +51,12 @@ const options = reactive({
 })
 
 onMounted(() => {
-  chart.value.forEach((item: any, index: number) => {
+  chart.value.forEach((_item: any, index: number) => {
     chart.value[index].resize();
   });
 })
 const chart = ref([] as any);
-const SizeAutoChange = (i: string, x: number, y: number, newH: number, newW: number) => {
+const SizeAutoChange = (i: string) => {
   chart.value[i].resize();
 }
 
@@ -70,7 +70,7 @@ const layout = [
   { x: 0, y: 0, w: 2, h: 2, i: '0', static: true, title: 'static', isChart: false, value: '1.2day' },
   { x: 2, y: 0, w: 2, h: 4, i: '1', display: true, title: 'cpu', isChart: false, value: 4 },
   { x: 4, y: 0, w: 2, h: 5, i: '2', isChart: false, value: '2.35GiB' },
-  { x: 6, y: 0, w: 2, h: 3, i: '3', option: network_opt },
+  { x: 6, y: 0, w: 2, h: 3, i: '3' },
   { x: 8, y: 0, w: 2, h: 3, i: '4' },
   { x: 10, y: 0, w: 2, h: 3, i: '5' },
   { x: 0, y: 5, w: 2, h: 5, i: '6' },

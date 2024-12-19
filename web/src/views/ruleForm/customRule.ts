@@ -8,7 +8,7 @@
 // 自定义校验
 
 // 校验阈值是否在0-100之间
-export const checkThreshold = (rule: any, value: any, callback: any) => {
+export const checkThreshold = (_rule: any, value: any, callback: any) => {
   setTimeout(() => {
     if (!Number.isInteger(parseInt(value))) {
       callback(new Error('请输入数字'))
@@ -22,7 +22,7 @@ export const checkThreshold = (rule: any, value: any, callback: any) => {
   }, 100)
 }
 
-export const checkDuration = (rule: any, value: any, callback: any) => {
+export const checkDuration = (_rule: any, value: any, callback: any) => {
   setTimeout(() => {
     if (isNaN(value)) {
       callback(new Error('请输入数字'))

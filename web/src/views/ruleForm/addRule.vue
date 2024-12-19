@@ -11,11 +11,8 @@
       <el-input v-model="form.alertName" maxlength="15" placeholder="请输入告警名称" clearable type="text"
         show-word-limit></el-input>
     </el-form-item>
-    <el-form-item label="监控主机" :prop="selectHostType">
-      <el-radio-group v-model="selectHostType" style="width: 100%" @change="changeHostType">
-        <el-radio label="ips">选择主机IP</el-radio>
-      </el-radio-group>
-      <el-select v-model="form.ips" v-if="selectHostType === 'ips'" multiple filterable placeholder="请选择监控主机"
+    <el-form-item label="监控主机">
+      <el-select v-model="form.ips" multiple filterable placeholder="请选择监控主机"
         collapse-tags @change="changeHost">
         <el-option v-for="item in ips" :key="item.targetIp
           " :label="item.targetIp" :value="item.targetIp" />
@@ -24,13 +21,6 @@
         </template>
       </el-select>
 
-      <el-select v-model="form.batches" v-if="selectHostType === 'batches'" multiple placeholder="请选择主机批次" collapse-tags
-        @change="selectBtaches">
-        <el-option v-for="item in batches" :key="item.id" :label="item.name" :value="item.id" />
-        <template #empty>
-          <div style="text-align: center; padding: 10px">暂无数据</div>
-        </template>
-      </el-select>
     </el-form-item>
     <el-form-item label="监控指标" prop="metrics">
       <el-select v-model="form.metrics" placeholder="请选择监控指标" @change="handleAlertLevel">
@@ -80,7 +70,6 @@ import {
   updateConfigRule,
   getMetrics,
   getExporterList,
-  getHostsByBatchId,
 } from "@/api/prometheus";
 import type { ConfigRule } from "@/types/rule";
 import type { Host } from "@/types/host";
@@ -153,9 +142,8 @@ const rules = reactive<FormRules>({
 onMounted(() => {
   let rowItem: ConfigRule = props.row as ConfigRule;
   if (rowItem && props.isUpdate) {
-    selectHostType.value = "ips"
     form.id = rowItem.id;
-    form.ips = rowItem.alertTargets.map((item) => item.ip);
+    form.ips = rowItem.alertTargets.map((item:any) => item.ip);
     form.alertTargets = rowItem.alertTargets;
     form.alertName = rowItem.alertName;
     form.alertLabel = rowItem.alertLabel;
@@ -171,44 +159,11 @@ onMounted(() => {
   console.log('ruleFormRef', ruleFormRef)
 });
 
-// 获取所有批次
-const selectHostType = ref("ips");
-const batches = ref([] as any[]);
-// 批次选中事件
-const selected_batches = ref([] as number[]);
-const selectBtaches = (value: number[]) => {
-  if (!value) return;
-  selected_batches.value = value;
-  form.batches_str = value.join();
-};
-
-// 获取批次内的所有主机
-const getHostsByBtaches = () => {
-  form.alertTargets = [];
-  let all_proms = [] as any;
-  selected_batches.value.forEach((batch_id) => {
-    let promissItem = getHostsByBatchId({ id: batch_id }).then((res) => {
-      // 添加主机信息
-      if (res.data.code == 200) {
-        res.data.data.forEach((host: any) => {
-          if (host.agentStatus !== "断开") {
-            form.alertTargets.push({
-              ip: host.ip,
-              hostId: host.id,
-            });
-          }
-        });
-      }
-    });
-    all_proms.push(promissItem);
-  });
-  return Promise.all(all_proms);
-};
 
 // 获取所有监控主机
 const ips = ref([] as Host[]);
 const getAllHost = () => {
-  getExporterList({ paged: false }).then((res) => {
+  getExporterList({ paged: false }).then((res:any) => {
     if (res.data.code === 200) {
       ips.value = res.data.data;
     }
@@ -220,7 +175,7 @@ const getAllHost = () => {
 const levels = ref([] as any);
 const metrics = ref([] as any);
 const getAllMetrics = () => {
-  getMetrics().then((res) => {
+  getMetrics().then((res:any) => {
     if (res.data.code === 200) {
       metrics.value = res.data.data.metrics;
       levels.value = res.data.data.ruleLevel;
@@ -233,7 +188,7 @@ const changeHost = (value: string[]) => {
   if (!value) return;
   checked_hosts.value = [];
   value.forEach((ip) => {
-    let ip_filtered_item = ips.value.filter((item) => item.targetIp === ip)[0];
+    let ip_filtered_item = ips.value.filter((item:any) => item.targetIp === ip)[0];
     checked_hosts.value.push({
       hostId: ip_filtered_item.hostId,
       ip: ip_filtered_item.targetIp,
@@ -244,12 +199,12 @@ const changeHost = (value: string[]) => {
 };
 
 // 点击选择告警级别方式时触发
-const changeLevel = () => {
+const changeLevel = async () => {
   form.severity = "";
   form.input_severity = "";
   setTimeout(() => {
-    ruleFormRef.value.clearValidate("severity");
-    ruleFormRef.value.clearValidate("input_severity");
+    ruleFormRef.value!.clearValidate("severity");
+    ruleFormRef.value!.clearValidate("input_severity");
   }, 50);
 };
 // 点击选择告警级别方式时触发
@@ -257,8 +212,8 @@ const changeHostType = () => {
   form.batches = [];
   form.ips = [];
   setTimeout(() => {
-    ruleFormRef.value.clearValidate("ips");
-    ruleFormRef.value.clearValidate("batches");
+    ruleFormRef.value!.clearValidate("ips");
+    ruleFormRef.value!.clearValidate("batches");
   }, 50);
 };
 
@@ -276,7 +231,7 @@ const handleAlertLevel = (value: string) => {
     unit.value = "0";
     form.threshold = "0";
     setTimeout(() => {
-      ruleFormRef.value.clearValidate("threshold");
+      ruleFormRef.value!.clearValidate("threshold");
     }, 50);
   }
 };
@@ -289,7 +244,7 @@ const showLevelInput = ref(false);
 const isLoading = ref(false);
 const addRule = () => {
   addConfigRule(form)
-    .then((res) => {
+    .then((res:any) => {
       if (res.data.code === 200) {
         isLoading.value = false;
         ElMessage.success(res.data.msg);
@@ -300,7 +255,7 @@ const addRule = () => {
         ElMessage.error(res.data.msg);
       }
     })
-    .catch((err) => {
+    .catch((err:any) => {
       ElMessage.error("数据传输失败，请检查", err);
     });
 };
@@ -308,7 +263,7 @@ const addRule = () => {
 // 编辑一条规则
 const updateRule = () => {
   updateConfigRule(form)
-    .then((res) => {
+    .then((res:any) => {
       if (res.data.code === 200) {
         isLoading.value = false;
         ElMessage.success(res.data.msg);
@@ -319,7 +274,7 @@ const updateRule = () => {
         ElMessage.error(res.data.msg);
       }
     })
-    .catch((err) => {
+    .catch((err:any) => {
       ElMessage.error("数据传输失败，请检查", err);
     });
 };
@@ -333,13 +288,7 @@ const saveTaskData = (formEl: FormInstance | undefined) => {
       if (showLevelInput.value) {
         form.severity = form.input_severity!;
       }
-      if (selectHostType.value === "batches") {
-        getHostsByBtaches().then((res) => {
-          props.isUpdate ? updateRule() : addRule();
-        });
-      } else {
-        props.isUpdate ? updateRule() : addRule();
-      }
+      props.isUpdate ? updateRule() : addRule();
     }
   });
 };

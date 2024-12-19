@@ -10,7 +10,7 @@
     <el-form ref="form" :inline="true" class="flex">
       <el-form-item label="机器 IP:">
         <!-- ip选择器 -->
-        <el-select v-model="macIp" @change="handleChangeIp">
+        <el-select v-model="macIp" @change="handleChangeIp" style="width:210px;">
           <el-option v-for="item in macIps" :key="item.labels.instance" :label="item.labels.instance"
             :value="item.labels.instance"></el-option>
         </el-select></el-form-item>
@@ -25,19 +25,6 @@
     <grid-layout :col-num="16" :is-draggable="grid.draggable" :is-resizable="grid.resizable" :layout="layout"
       :row-height="30" :use-css-transforms="true" :vertical-compact="true">
       <template v-for="(item, indexVar) in layout">
-        <!-- <grid-item :key="indexVar" :h="item.h" :i="item.i" :static="item.static" :w="item.w" :x="item.x" :y="item.y"
-          :min-w="2" :min-h="2" @resize="SizeAutoChange(item.i, item.query.isChart)" @resized="SizeAutoChange"
-          drag-allow-from=".drag" drag-ignore-from=".noDrag" v-if="item.display">
-          <div class="drag">
-            <span class="drag-title">{{ item.title }}</span>
-          </div>
-          <div class="noDrag">
-            <my-echarts :ref="(el: any) => { if (el) chart[indexVar] = el }" :query="item.query" :startTime="startTime"
-              :endTime="endTime" style="width:100%;height:100%;">
-            </my-echarts>
-          </div>
-
-        </grid-item> -->
         <grid-item :key="indexVar" :h="item.h" :i="item.i" :static="item.static" :w="item.w" :x="item.x" :y="item.y"
           :min-w="2" :min-h="2" @resize="SizeAutoChange(item.i, item.query.isChart)" @resized="SizeAutoChange"
           drag-allow-from=".drag" drag-ignore-from=".noDrag" v-if="item.display">
@@ -132,7 +119,7 @@ const SizeAutoChange = (i: string, isChart?: boolean) => {
 
 onMounted(() => {
   // 页面dom加载完成后初始化图表大小
-  chart.value.forEach((item: any, index: number) => {
+  chart.value.forEach((_item: any, index: number) => {
     chart.value[index].resize();
   });
   // layout.value = layoutStore.layout_option;
