@@ -10,6 +10,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gopkg.in/yaml.v2"
@@ -36,12 +37,20 @@ type MysqlDBInfo struct {
 	DataBase string `yaml:"database"`
 }
 
+type Etcd struct {
+	Endpoints   []string      `yaml:"endpoints" mapstructure:"endpoints"`
+	ServiveName string        `yaml:"service_name" mapstructure:"service_name"`
+	Version     string        `yaml:"version" mapstructure:"version"`
+	DialTimeout time.Duration `yaml:"dialTimeout" mapstructure:"dialTimeout"`
+}
+
 type ServerConfig struct {
 	PluginPrometheus *PluginPrometheus `yaml:"plugin_prometheus"`
 	PrometheusServer *PrometheusServer `yaml:"prometheus_server"`
 	HttpServer       *HttpServer       `yaml:"http_server"`
 	Logopts          *logger.LogOpts   `yaml:"log"`
 	Mysql            *MysqlDBInfo      `yaml:"mysql"`
+	Etcd             *Etcd             `yaml:"etcd" mapstructure:"etcd"`
 }
 
 const config_file = "./config.yml"
