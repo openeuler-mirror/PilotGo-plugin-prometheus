@@ -9,7 +9,7 @@ rule_files:
 scrape_configs:
   - job_name: node_exporter
     http_sd_configs:
-    - url: http://$1/plugin/prometheus/target
+    - url: http://$1/plugin/prometheus/api/target
       refresh_interval: 60s
 EOF
 cat>/etc/prometheus/rules.yaml<<EOF

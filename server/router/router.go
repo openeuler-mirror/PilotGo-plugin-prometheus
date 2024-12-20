@@ -36,7 +36,8 @@ func RegisterAPIs(router *gin.Engine) {
 	sdk.UnPluginListenEventHandler()
 
 	// prometheus api代理
-	prometheus := router.Group("/plugin/" + plugin.Client.PluginInfo.Name + "/api/v1")
+	api := router.Group("/plugin/" + plugin.Client.PluginInfo.Name + "/api")
+	prometheus := api.Group("")
 	{
 		prometheus.GET("/query", func(c *gin.Context) {
 			c.Set("query", plugin.Client.PluginInfo.ReverseDest)
@@ -58,20 +59,20 @@ func RegisterAPIs(router *gin.Engine) {
 	}
 
 	// prometheus配置文件http方式获取监控target
-	DBTarget := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
+	DBTarget := api.Group("")
 	{
 		DBTarget.GET("target", httphandler.DBTargets)
 	}
 
 	//prometheus target crud
-	targetManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
+	targetManager := api.Group("")
 	{
 		targetManager.POST("run", httphandler.RunCommand)
 		targetManager.GET("monitorlist", httphandler.MonitorTargets)
 	}
 
 	//prometheus alert rule manager
-	ruleManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
+	ruleManager := api.Group("")
 	{
 		ruleManager.POST("ruleAdd", httphandler.AddRuleHandler)
 		ruleManager.GET("ruleQuery", httphandler.QueryRules)
@@ -81,7 +82,7 @@ func RegisterAPIs(router *gin.Engine) {
 	}
 
 	//prometheus alert  manager
-	alertManager := router.Group("/plugin/" + plugin.Client.PluginInfo.Name)
+	alertManager := api.Group("")
 	{
 		alertManager.GET("alertQuery", httphandler.QuerySearchAlerts)
 		alertManager.POST("alertUpdateState", httphandler.UpdateHandleState)
@@ -89,14 +90,13 @@ func RegisterAPIs(router *gin.Engine) {
 }
 
 func StaticRouter(router *gin.Engine) {
-	router.Static("/plugin/prometheus/static", "../web/dist/static")
+	router.Static("/plugin/prometheus/assets", "../web/dist/assets")
 	router.StaticFile("/plugin/prometheus", "../web/dist/index.html")
 
 	// 解决页面刷新404的问题
 	router.NoRoute(func(c *gin.Context) {
-		logger.Error("process noroute: %s", c.Request.URL.RawPath)
-		if !strings.HasPrefix(c.Request.RequestURI, "/plugin/prometheus") {
-			c.File("./web/dist/index.html")
+		if !strings.HasPrefix(c.Request.RequestURI, "/plugin/prometheus/api") {
+			c.File("../web/dist/index.html")
 			return
 		}
 		c.AbortWithStatus(http.StatusNotFound)
