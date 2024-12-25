@@ -56,7 +56,7 @@
     <!-- 列表 -->
     <div class="pm_table_content" ref="tableBox">
       <el-table ref="multipleTableRef" :data="tableData" :row-key="(row: any) => row.id" class="table"
-        @select="handleRowSelectionChange" @selection-change="handleSelectinChange" v-loading="loading">
+        @select="handleRowSelectionChange" v-loading="loading">
         <slot></slot>
         <template #append>
           <slot name="append"></slot>
@@ -274,7 +274,7 @@ const createFilter = (queryString: string) => {
 };
 
 // 点击下拉图标事件
-const handleArrowClick = (ev: Event) => {
+const handleArrowClick = (_ev: Event) => {
   // console.log('arrow', ev)
   getAllData();
 };
@@ -296,15 +296,6 @@ const handleIpSearch = (item?: { ip: string }) => {
   page.currentPage = 1;
   handleCheckChange("不选择");
   getTableData();
-};
-
-// 表格被选择数据发生变化
-const handleSelectinChange = (val: Idata[]) => {
-  // if (val.length === 1 && val[0].agentStatus === '断开') {
-  //   multipleTableRef.value!.clearSelection();
-  //   console.log('判断需要关闭多选框', val)
-  //   checkedState.value = false;
-  // }
 };
 
 const checkedRows = ref([] as Array<Idata>); // 全选状态下的数据

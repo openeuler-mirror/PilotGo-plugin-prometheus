@@ -52,7 +52,7 @@ const emit = defineEmits<{
 
 watch(
   () => props.all_data,
-  (newV, oldV) => {
+  (newV) => {
     if (newV) {
       all_data.value = newV;
     }

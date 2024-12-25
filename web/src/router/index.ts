@@ -5,7 +5,7 @@
  * Author: zhanghan2021 <zhanghan@kylinos.cn>
  * Date: Wed Jul 26 16:42:38 2023 +0800
  */
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RuleList from '../views/ruleList.vue'
 import AlertList from '../views/alertList.vue'
@@ -28,8 +28,16 @@ const routes: Array<RouteRecordRaw> = [
   },
 ]
 
+
+let baseRoute = '';
+if (window.__MICRO_APP_ENVIRONMENT__) {
+  console.log('在微前端环境中,baseRoute:',baseRoute)
+  baseRoute = window.__MICRO_APP_BASE_ROUTE__ || '/';
+} else {
+  baseRoute = import.meta.env.BASE_URL;
+}
 const router = createRouter({
-  history: createWebHashHistory('/plugin/prometheus'),
+  history: createWebHistory(baseRoute),
   routes
 })
 

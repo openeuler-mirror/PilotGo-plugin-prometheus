@@ -140,7 +140,7 @@ const onReset = () => {
 }
 
 // 监听概览页面跳转时携带的参数state
-watch(() => alertStore().alert_state, (new_state, old_state) => {
+watch(() => alertStore().alert_state, (new_state) => {
   form.state = new_state;
 
 }, { immediate: true })

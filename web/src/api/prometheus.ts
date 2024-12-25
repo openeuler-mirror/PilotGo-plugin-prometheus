@@ -9,7 +9,7 @@ import request from './request'
 // 获取指标列表
 export function getPromRules() {
   return request({
-    url: '/plugin/prometheus/api/v1/targets',
+    url: '/plugin/prometheus/api/targets',
     method: 'get',
   })
 }
@@ -17,7 +17,7 @@ export function getPromRules() {
 // 获取prome某一时间点的数据
 export function getPromeCurrent(data: object) {
   return request({
-    url: '/plugin/prometheus/api/v1/query',
+    url: '/plugin/prometheus/api/query',
     method: 'get',
     params: data
   })
@@ -26,7 +26,7 @@ export function getPromeCurrent(data: object) {
 // 获取prome某一时间段的数据
 export function getPromeRange(data: object) {
   return request({
-    url: '/plugin/prometheus/api/v1/query_range',
+    url: '/plugin/prometheus/api/query_range',
     method: 'get',
     params: data
   })
@@ -43,7 +43,7 @@ export function getMacIp() {
 // 获取全部配置规则
 export function getRuleList(data: Object) {
   return request({
-    url: "/plugin/prometheus/ruleQuery",
+    url: "/plugin/prometheus/api/ruleQuery",
     method: "get",
     params: data,
   });
@@ -51,7 +51,7 @@ export function getRuleList(data: Object) {
 // 添加告警告警规则
 export function addConfigRule(data: object) {
   return request({
-    url: "/plugin/prometheus/ruleAdd",
+    url: "/plugin/prometheus/api/ruleAdd",
     method: "post",
     data,
   });
@@ -60,7 +60,7 @@ export function addConfigRule(data: object) {
 // 编辑告警告警规则
 export function updateConfigRule(data: object) {
   return request({
-    url: " /plugin/prometheus/ruleUpdate",
+    url: " /plugin/prometheus/api/ruleUpdate",
     method: "post",
     data,
   });
@@ -70,7 +70,7 @@ export function updateConfigRule(data: object) {
 // 删除告警告警规则
 export function delConfigRule(data: { id: number }) {
   return request({
-    url: "/plugin/prometheus/ruleDelete",
+    url: "/plugin/prometheus/api/ruleDelete",
     method: "get",
     params: data,
   });
@@ -79,7 +79,7 @@ export function delConfigRule(data: { id: number }) {
 // 获取所有监控指标
 export function getMetrics() {
   return request({
-    url: "plugin/prometheus/ruleMetrics",
+    url: "/plugin/prometheus/api/ruleMetrics",
     method: "get",
   });
 }
@@ -87,7 +87,7 @@ export function getMetrics() {
 // 已安装监控组件的主机列表分页
 export function getExporterList(data: object) {
   return request({
-    url: "/plugin/prometheus/monitorlist",
+    url: "/plugin/prometheus/api/monitorlist",
     method: "get",
     params: data,
   });
@@ -96,7 +96,7 @@ export function getExporterList(data: object) {
 // 获取所有历史告警
 export function getHistoryAlerts(data: Object) {
   return request({
-    url: "/plugin/prometheus/alertQuery",
+    url: "/plugin/prometheus/api/alertQuery",
     method: "get",
     params: data,
   });
@@ -105,7 +105,7 @@ export function getHistoryAlerts(data: Object) {
 // 变更告警状态
 export function updateAlertState(data: Object) {
   return request({
-    url: "/plugin/prometheus/alertUpdateState",
+    url: "/plugin/prometheus/api/alertUpdateState",
     method: "post",
     data,
   });

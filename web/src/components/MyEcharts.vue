@@ -85,7 +85,7 @@ const getPromeData = (item: any, query_ip: String) => {
     let new_step: number = (props.endTime - props.startTime) / 10000;
     search_step = new_step > 15 ? Math.floor(new_step) : 15;
     let proms = [] as any;
-    item.sqls.forEach((sqlItem: any, index: number) => {
+    item.sqls.forEach((sqlItem: any) => {
       // 1.使用new promise来进行异步处理,避免乱序
       proms.push(
         new Promise((resolve, reject) => {
@@ -104,7 +104,7 @@ const getPromeData = (item: any, query_ip: String) => {
   }
   else if (!item.range) {
     let proms = [] as any;
-    item.sqls.forEach(async (sqlItem: any, index: number) => {
+    item.sqls.forEach(async (sqlItem: any) => {
       proms.push(
         new Promise((resolve, reject) => {
           getPromeCurrent({ query: sqlItem.sql.replace(/{macIp}/g, query_ip) }).then(res => {
@@ -174,7 +174,7 @@ const handle_line_data = (values: any, target: string) => {
 }
 
 // 设置折线类型的数据
-const set_line_type = (item: any, result: any) => {
+const set_line_type = (item: any) => {
   seriesCount = 0;
   let value_unit = item.unit;
   line_option = reactive(deepClone(line_opt));
@@ -242,7 +242,7 @@ const set_line_type = (item: any, result: any) => {
     let startDiv = `<div style='height:100px; width:100%; background-color:transparent; display:flex; 
       flex-direction:column;flex-wrap:wrap;justify-content:flex-start;align-items:start; display:-moz-flex; '>`;
     let endDiv = '</div>';
-    data.map((item: any, index: number) => {
+    data.map((item: any) => {
       if (item.data.empty) {
         result = ''
       } else {
@@ -285,6 +285,7 @@ const set_value_type = (item: any, result: any) => {
       } else {
         char_value.value = num.toFixed(item.float);
       }
+      break;
     default:
       break;
   }
@@ -318,6 +319,9 @@ const set_gauge_type = (item: any, result: any) => {
 }
 
 // 设置表格类型的数据
+let getValueFromPath = (obj:Object,path:string) => {
+        return path.split('.').reduce((acc:any,part:string) => acc && acc[part],obj)
+      }
 const set_table_type = (item: any, result: any) => {
   tableData.value = [];
   columnList.value = item.sqls[0].columnList;
@@ -334,23 +338,23 @@ const set_table_type = (item: any, result: any) => {
       cols.forEach(async (vItem: any) => {
         switch (vItem.type) {
           case 'byte':
-            tableItem[vItem.prop] = handle_byte(eval(vItem.value), 2, 'GB')
+            tableItem[vItem.prop] = handle_byte(item.value[1], 2, 'GB')
             break;
           case 'percent':
-            tableItem[vItem.prop] = (parseFloat(eval(vItem.value)) * 100).toFixed(2) + '%'
+            tableItem[vItem.prop] = (item.value[1] * 100).toFixed(2) + '%'
             break;
           case 'float':
-            tableItem[vItem.prop] = parseFloat(eval(vItem.value)).toFixed(2)
+            tableItem[vItem.prop] = JSON.parse(item.value[1]).toFixed(2)
             break;
           default:
-            tableItem[vItem.prop] = eval(vItem.value)
+            tableItem[vItem.prop] = getValueFromPath({item},vItem.value)
             break;
         }
       })
       tableData1[`res${resIndex}.${index}`] = deepClone(tableItem);
     })
   })
-  result[0].forEach((key: any, index: number) => {
+  result[0].forEach((_key: any, index: number) => {
     let rowData = {} as any;
     for (let i = 0; i < item.sqls.length; i++) {
       let resString = 'res' + index + '.' + i;
@@ -386,7 +390,7 @@ watch(() => option.value, (new_option) => {
 })
 
 // 监听时间的变化
-watch(() => props.timeChange, (newVal, oldVal) => {
+watch(() => props.timeChange, (newVal) => {
   if (newVal) {
     // 加延迟防止ip还没监听到就调用接口
     setTimeout(() => {
@@ -402,12 +406,12 @@ watch(() => line_arr.value, (new_line_arr) => {
   if (new_line_arr.length != props.query.sqls.length) {
     return false;
   }
-  set_line_type(props.query, new_line_arr);
+  set_line_type(props.query);
 }, {
   deep: true
 })
 
-watch(() => useMacStore().macIp, (new_macIp, old_macIp) => {
+watch(() => useMacStore().macIp, (new_macIp) => {
   if (new_macIp) {
     macIp.value = new_macIp;
     getPromeData(props.query, new_macIp);
