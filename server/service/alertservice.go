@@ -1,6 +1,6 @@
 /*
  * Copyright (c) KylinSoft  Co., Ltd. 2024.All rights reserved.
- * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2. 
+ * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2.
  * See LICENSE file for more details.
  * Author: zhanghan2021 <zhanghan@kylinos.cn>
  * Date: Tue Oct 29 16:42:12 2024 +0800
@@ -117,7 +117,7 @@ func PullAlert() error {
 			}
 			alerts, err := pullAlert()
 			if err != nil {
-				logger.Error("Error pull alerts from kylin-monitor: %v", err.Error())
+				logger.Error("Error pull alerts from prometheus: %v", err.Error())
 				continue
 			}
 			processAlerts(previousAlerts, alerts)
