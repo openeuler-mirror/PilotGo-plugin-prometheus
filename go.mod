@@ -21,7 +21,7 @@ require (
 )
 
 require (
-	gitee.com/openeuler/PilotGo/sdk v0.0.0-20241227011934-dcb2ac516265
+	gitee.com/openeuler/PilotGo/sdk v0.0.0-20241227025503-7721847f9048
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
