@@ -1,6 +1,6 @@
 /*
  * Copyright (c) KylinSoft  Co., Ltd. 2024.All rights reserved.
- * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2. 
+ * PilotGo-plugin-prometheus licensed under the Mulan Permissive Software License, Version 2.
  * See LICENSE file for more details.
  * Author: zhanghan2021 <zhanghan@kylinos.cn>
  * Date: Mon Nov 13 11:26:00 2023 +0800
@@ -22,7 +22,7 @@ func GetTags() {
 				tag := common.Tag{
 					UUID: uuid,
 					Type: common.TypeOk,
-					Data: "exporter",
+					Data: "监控",
 				}
 				tags = append(tags, tag)
 			} else {

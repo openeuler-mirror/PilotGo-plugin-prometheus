@@ -22,6 +22,7 @@ func Init(plugin *config.PluginPrometheus, prometheus *config.PrometheusServer) 
 		Author:      "zhanghan",
 		Email:       "zhanghan@kylinos.cn",
 		Url:         plugin.URL,
+		Icon:        "Odometer",
 		PluginType:  "micro-app",
 		ReverseDest: "http://" + prometheus.Addr,
 	}
