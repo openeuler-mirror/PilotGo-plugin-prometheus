@@ -22,7 +22,7 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.Use(logger.RequestLogger([]string{
-		"/plugin/prometheus/target",
+		"/plugin/prometheus/api/target",
 	}))
 	router.Use(gin.Recovery())
 

@@ -16,6 +16,7 @@ var Client *client.Client
 
 func Init(plugin *config.PluginPrometheus, prometheus *config.PrometheusServer) *client.PluginInfo {
 	PluginInfo := client.PluginInfo{
+		MenuName:    "监控告警",
 		Name:        "prometheus",
 		Version:     "1.0.1",
 		Description: "Prometheus开源系统监视和警报工具包",

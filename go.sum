@@ -1,7 +1,7 @@
 gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730114546-6471a280e4d2 h1:VfG7DsypX8WR5AFIHQmSQ3ABBjWFRTNPNESRWdDCV6M=
 gitee.com/openeuler/PilotGo-plugins/event/sdk v0.0.0-20240730114546-6471a280e4d2/go.mod h1:qKN5mZT240WasFoPqLnmQWJ/PBB5+Db0BiLmCfYaLBk=
-gitee.com/openeuler/PilotGo/sdk v0.0.0-20241227011934-dcb2ac516265 h1:ns3aXNOXvCAWHboNcKI4E74pbdVBAZtOjdHxZN/1XdA=
-gitee.com/openeuler/PilotGo/sdk v0.0.0-20241227011934-dcb2ac516265/go.mod h1:Et2wSYAR8hj9jMnSqwtyi8fA79q63tLvPcHwySiRG+g=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20241227025503-7721847f9048 h1:rEXryrdZy2otjQDyaWsJDZtXbPdeuWpN4RFrD4nB+Lo=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20241227025503-7721847f9048/go.mod h1:Et2wSYAR8hj9jMnSqwtyi8fA79q63tLvPcHwySiRG+g=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
 github.com/bytedance/sonic v1.10.0-rc/go.mod h1:ElCzW+ufi8qKqNW0FY314xriJhyJhuoJ3gFZdAHF7NM=
 github.com/bytedance/sonic v1.10.2 h1:GQebETVBxYB7JGWJtLBi07OVzWwt+8dWA00gEVW2ZFE=
