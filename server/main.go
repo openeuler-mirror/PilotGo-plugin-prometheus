@@ -51,8 +51,9 @@ func main() {
 	plugin.Client = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
 	router.RegisterAPIs(server)
 	router.StaticRouter(server)
-	service.GetTags()       // pilotgo机器列表tag标签
-	service.AddExtentions() // 添加扩展点
+	service.GetTags()        // pilotgo机器列表tag标签
+	service.AddExtentions()  // 添加扩展点
+	service.AddPermissions() // 添加权限
 
 	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
 		logger.Fatal("failed to run server: %v", err)
