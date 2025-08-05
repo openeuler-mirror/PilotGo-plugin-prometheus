@@ -10,7 +10,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
+	"gitee.com/openeuler/PilotGo/sdk/go-micro/registry"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"openeuler.org/PilotGo/prometheus-plugin/server/config"
@@ -51,9 +53,23 @@ func main() {
 	plugin.Client = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
 	router.RegisterAPIs(server)
 	router.StaticRouter(server)
-	service.GetTags()        // pilotgo机器列表tag标签
-	service.AddExtentions()  // 添加扩展点
-	service.AddPermissions() // 添加权限
+	service.GetTags() // pilotgo机器列表tag标签
+
+	_, err := registry.NewServiceRegistrar(&registry.Options{
+		Endpoints:   []string{"localhost:2379"},
+		ServiceAddr: config.Config().HttpServer.Addr,
+		ServiceName: "prometheus-service",
+		Version:     "v3.0",
+		MenuName:    "监控告警",
+		Icon:        "Odometer",
+		DialTimeout: 5 * time.Second,
+		Extentions:  service.GetExtentions(),
+		Permissions: service.GetPermissions(),
+	})
+	if err != nil {
+		logger.Error("failed to initialize registry: %s", err)
+		os.Exit(-1)
+	}
 
 	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
 		logger.Fatal("failed to run server: %v", err)

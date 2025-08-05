@@ -9,10 +9,9 @@ package service
 
 import (
 	"gitee.com/openeuler/PilotGo/sdk/common"
-	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
 )
 
-func AddPermissions() {
+func GetPermissions() []common.Permission {
 	var pe []common.Permission
 	p1 := common.Permission{
 		Resource: "monitor_operate",
@@ -24,5 +23,5 @@ func AddPermissions() {
 	}
 
 	p := append(pe, p1, p2)
-	plugin.Client.RegisterPermission(p)
+	return p
 }

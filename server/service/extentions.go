@@ -9,10 +9,9 @@ package service
 
 import (
 	"gitee.com/openeuler/PilotGo/sdk/common"
-	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
 )
 
-func AddExtentions() {
+func GetExtentions() []common.Extention {
 	var ex []common.Extention
 	me1 := &common.MachineExtention{
 		Type:       common.ExtentionMachine,
@@ -45,5 +44,5 @@ func AddExtentions() {
 		Permission: "plugin.prometheus.page/menu",
 	}
 	ex = append(ex, me1, me2, pe1, pe2, pe3)
-	plugin.Client.RegisterExtention(ex)
+	return ex
 }
