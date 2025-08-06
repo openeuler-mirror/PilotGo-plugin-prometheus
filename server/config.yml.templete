@@ -16,3 +16,11 @@ mysql:
   user: ''
   password: ''
   database: PluginPrometheus
+etcd:
+  endpoints:
+    - "localhost:2379"
+  service_name: "prometheus-service"
+  version: "3.0"
+  dialTimeout: 5s
+  menu_name: "监控告警"
+  icon: "Odometer"
