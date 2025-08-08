@@ -16,16 +16,11 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type PluginPrometheus struct {
-	URL string `yaml:"url"`
-}
 type PrometheusServer struct {
 	Addr string `yaml:"addr"`
 }
+
 type HttpServer struct {
-	Addr string `yaml:"addr"`
-}
-type PilotGoServer struct {
 	Addr string `yaml:"addr"`
 }
 
@@ -47,7 +42,6 @@ type Etcd struct {
 }
 
 type ServerConfig struct {
-	PluginPrometheus *PluginPrometheus `yaml:"plugin_prometheus"`
 	PrometheusServer *PrometheusServer `yaml:"prometheus_server"`
 	HttpServer       *HttpServer       `yaml:"http_server"`
 	Logopts          *logger.LogOpts   `yaml:"log"`

@@ -1,5 +1,3 @@
-plugin_prometheus:
-  url: "http://localhost:8090"
 prometheus_server:
   addr: "localhost:9090"
 http_server:
