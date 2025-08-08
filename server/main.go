@@ -47,14 +47,7 @@ func main() {
 		os.Exit(-1)
 	}
 
-	server := router.InitRouter()
-
-	plugin.Client = client.DefaultClient(plugin.Init(config.Config().PluginPrometheus, config.Config().PrometheusServer))
-	router.RegisterAPIs(server)
-	router.StaticRouter(server)
-	service.GetTags() // pilotgo机器列表tag标签
-
-	_, err := registry.NewServiceRegistrar(&registry.Options{
+	sr, err := registry.NewServiceRegistrar(&registry.Options{
 		Endpoints:   config.Config().Etcd.Endpoints,
 		ServiceAddr: config.Config().HttpServer.Addr,
 		ServiceName: config.Config().Etcd.ServiveName,
@@ -70,7 +63,12 @@ func main() {
 		os.Exit(-1)
 	}
 
-	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
-		logger.Fatal("failed to run server: %v", err)
+	client, err := client.NewClient(config.Config().Etcd.ServiveName, sr.Registry)
+	if err != nil {
+		logger.Error("failed to create plugin client: %s", err)
+		os.Exit(-1)
 	}
+	plugin.Client = client
+
+	router.StartHttpServer()
 }

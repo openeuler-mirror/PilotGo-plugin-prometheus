@@ -18,6 +18,7 @@ require (
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
@@ -35,7 +36,7 @@ require (
 )
 
 require (
-	gitee.com/openeuler/PilotGo/sdk v0.0.0-20250806061906-ced6853de86f
+	gitee.com/openeuler/PilotGo/sdk v0.0.0-20250808080917-4f1087c03a0b
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect

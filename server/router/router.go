@@ -8,17 +8,29 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
-	"gitee.com/openeuler/PilotGo-plugins/event/sdk"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"github.com/gin-gonic/gin"
+	"openeuler.org/PilotGo/prometheus-plugin/server/config"
 	"openeuler.org/PilotGo/prometheus-plugin/server/httphandler"
 	"openeuler.org/PilotGo/prometheus-plugin/server/plugin"
 )
 
-func InitRouter() *gin.Engine {
+func StartHttpServer() {
+	server := initRouter()
+
+	plugin.Client.RegisterHandlers(server)
+
+	plugin.GetTags() // pilotgo机器列表tag标签
+
+	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
+		logger.Fatal("failed to run server: %v", err)
+	}
+}
+func initRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.Use(logger.RequestLogger([]string{
@@ -26,33 +38,31 @@ func InitRouter() *gin.Engine {
 	}))
 	router.Use(gin.Recovery())
 
+	registerStaticRouter(router)
+	registerAPIs(router)
 	return router
 }
 
-func RegisterAPIs(router *gin.Engine) {
-	logger.Debug("router register")
-	plugin.Client.RegisterHandlers(router)
-	sdk.RegisterEventHandlers(router, plugin.Client)
-	sdk.UnPluginListenEventHandler()
-
+func registerAPIs(router *gin.Engine) {
+	logger.Info("router register")
 	// prometheus api代理
-	api := router.Group("/plugin/" + plugin.Client.PluginInfo.Name + "/api")
+	api := router.Group("/plugin/prometheus/api")
 	prometheus := api.Group("")
 	{
 		prometheus.GET("/query", func(c *gin.Context) {
-			c.Set("query", plugin.Client.PluginInfo.ReverseDest)
+			c.Set("query", fmt.Sprintf("http://%s", config.Config().PrometheusServer.Addr))
 			httphandler.Query(c)
 		})
 		prometheus.GET("/query_range", func(c *gin.Context) {
-			c.Set("query_range", plugin.Client.PluginInfo.ReverseDest)
+			c.Set("query_range", fmt.Sprintf("http://%s", config.Config().PrometheusServer.Addr))
 			httphandler.QueryRange(c)
 		})
 		prometheus.GET("/targets", func(c *gin.Context) {
-			c.Set("targets", plugin.Client.PluginInfo.ReverseDest)
+			c.Set("targets", fmt.Sprintf("http://%s", config.Config().PrometheusServer.Addr))
 			httphandler.Targets(c)
 		})
 		prometheus.GET("/alerts", func(c *gin.Context) {
-			c.Set("alerts", plugin.Client.PluginInfo.ReverseDest)
+			c.Set("alerts", fmt.Sprintf("http://%s", config.Config().PrometheusServer.Addr))
 			httphandler.Alerts(c)
 		})
 
@@ -89,7 +99,7 @@ func RegisterAPIs(router *gin.Engine) {
 	}
 }
 
-func StaticRouter(router *gin.Engine) {
+func registerStaticRouter(router *gin.Engine) {
 	router.Static("/plugin/prometheus/assets", "../web/dist/assets")
 	router.StaticFile("/plugin/prometheus", "../web/dist/index.html")
 
