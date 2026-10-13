@@ -1,36 +1,50 @@
 # PilotGo-plugin-prometheus
 
-#### Description
-PilotGo prometheus plugin provides cluster monitor and alert.
+#### Introduction
+The PilotGo prometheus plugin provides cluster monitoring dashboards and alerting.
 
 #### Software Architecture
-Software architecture description
-
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+System environment: openEuler 23.09  
+Development languages: Golang > 1.18, Vue3, NodeJs > 14
 
 
-#### Gitee Feature
+#### Development / Contribution Steps
+Install golang-prometheus-node_exporter, prometheus > 2.28 and mysql in advance  
+```bash
+$ yum install -y golang-prometheus-node_exporter  
+$ yum install -y prometheus > 2.28  
+$ yum install -y mysql
+```
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  Clone the repository  
+```bash
+$ git clone https://atomgit.com/openeuler/PilotGo-plugin-prometheus.git
+```
+2.  Modify the configuration file  
+```bash
+$ mv ./server/config.yml.templete ./server/config.yml
+$ vim ./server/config.yml
+```
+plugin_prometheus: url is the IP on which the plugin service starts  
+prometheus_server: address where prometheus is installed  
+http_server: address on which the plugin service starts  
+pilotgo_server: address of the PilotGo server service  
+mysql: host is the IP of the host where the DB is installed; user is the DB login user; password is the DB access password
+
+3.  Build the frontend  
+```bash
+$ cd ./web
+$ yarn install  
+$ yarn build
+```
+4.  Start the plugin
+```bash
+$ cd ./server
+$ go run main.go
+```
+Open http://ip:8090/plugin/prometheus in a browser
+
+#### Supplementary Links
+1.  [PilotGo User Manual](https://atomgit.com/openeuler/PilotGo/tree/master/docs/zh/usage_instructions.md)
+2.  PilotGo [Code Repository](https://atomgit.com/openeuler/PilotGo)
+3.  PilotGo [Package Repository](https://atomgit.com/src-openeuler/PilotGo)
