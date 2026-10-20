@@ -5,8 +5,8 @@ Version:        1.0.1
 Release:        2
 Summary:        PilotGo prometheus plugin provides cluster monitor and alert.
 License:        MulanPSL-2.0
-URL:            https://gitee.com/openeuler/PilotGo-plugin-prometheus
-Source0:        https://gitee.com/openeuler/PilotGo-plugin-prometheus/%{name}-%{version}.tar.gz
+URL:            https://atomgit.com/openeuler/PilotGo-plugin-prometheus
+Source0:        https://atomgit.com/openeuler/PilotGo-plugin-prometheus/%{name}-%{version}.tar.gz
 # tar -xvf Source0
 # cd %{name}-%{version}/web
 # run 'yarn install and yarn build' in it
